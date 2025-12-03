@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts Management - Quravel Admin</title>
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="styles/main.css">
+    
+    <!-- Quill.js for HTML Editor -->
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+    <script src="https://cdn.quilljs.com/1.3.7/quill-table.js"></script>
+    
+    <!-- CodeMirror for HTML Coding -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/material.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/htmlmixed/htmlmixed.min.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <header class="admin-header">
+            <div class="admin-nav">
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="Quravel Logo">
+                </a>
+                <nav class="admin-nav-links">
+                    <a href="admin.html" class="admin-nav-link">Dashboard</a>
+                    <a href="admin-status.html" class="admin-nav-link">Status</a>
+                    <a href="admin-header.html" class="admin-nav-link">Header and Menu</a>
+                    <a href="admin-homepage.html" class="admin-nav-link">Homepage</a>
+                    <a href="admin-slideshow.html" class="admin-nav-link">Slideshow</a>
+                    <a href="admin-posts.html" class="admin-nav-link active">Posts</a>
+                    <a href="admin-streaming.html" class="admin-nav-link">Streaming Page</a>
+                    <a href="admin-footer.html" class="admin-nav-link">Footer and Settings</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Admin Main Content -->
+        <main class="admin-main">
+            <div class="admin-content">
+                <div class="admin-header-section">
+                    <h1>Posts Management</h1>
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" onclick="showAddPostModal()">Add New Post</button>
+                        <button class="btn btn-secondary" onclick="showComposeModal()">Compose Content</button>
+                        <button class="btn btn-secondary" onclick="manageTemplates()">Manage Templates</button>
+                        <button class="btn btn-secondary" onclick="importPosts()">Import Posts</button>
+                        <button class="btn btn-secondary" onclick="exportPosts()">Export Data</button>
+                    </div>
+                </div>
+
+                <!-- Posts Table -->
+                <div class="posts-table">
+                    <table id="posts-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Category</th>
+                                <th>Flags</th>
+                                <th>Popularity</th>
+                                <th>Date Added</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="posts-table-body">
+                            <!-- Posts will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Compose Modal -->
+    <div id="compose-modal" class="modal modal-large">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Compose Content</h2>
+                <span class="close" onclick="closeComposeModal()">&times;</span>
+            </div>
+            
+            <!-- Compose Mode Tabs -->
+            <div class="compose-tabs">
+                <button class="tab-btn active" onclick="switchComposeMode('template')">
+                    <i class="icon-template"></i>
+                    Template Mode
+                </button>
+                <button class="tab-btn" onclick="switchComposeMode('html')">
+                    <i class="icon-code"></i>
+                    HTML Code Mode
+                </button>
+            </div>
+
+            <!-- Template Mode -->
+            <div id="template-mode" class="compose-mode active">
+                <div class="template-selection">
+                    <h3>Choose Template</h3>
+                    <div class="template-grid">
+                        <div class="template-card" onclick="selectTemplate('movie-card')">
+                            <div class="template-preview movie-template-preview">
+                                <h4>Movie Card</h4>
+                                <p>Standard movie/show card layout</p>
+                            </div>
+                        </div>
+                        <div class="template-card" onclick="selectTemplate('tv-show')">
+                            <div class="template-preview tv-template-preview">
+                                <h4>TV Show</h4>
+                                <p>Multi-episode TV show layout</p>
+                            </div>
+                        </div>
+                        <div class="template-card" onclick="selectTemplate('news-article')">
+                            <div class="template-preview news-template-preview">
+                                <h4>News Article</h4>
+                                <p>Article/blog post layout</p>
+                            </div>
+                        </div>
+                        <div class="template-card" onclick="selectTemplate('custom')">
+                            <div class="template-preview custom-template-preview">
+                                <h4>Custom</h4>
+                                <p>Build your own layout</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="template-editor" id="template-editor" style="display: none;">
+                    <h3>Customize Template</h3>
+                    <form id="template-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="compose-title">Title *</label>
+                                <input type="text" id="compose-title" name="title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="compose-type">Type *</label>
+                                <select id="compose-type" name="type" required>
+                                    <option value="">Select Type</option>
+                                    <option value="movie">Movie</option>
+                                    <option value="tv-show">TV Show</option>
+                                    <option value="anime">Anime</option>
+                                    <option value="news">News</option>
+                                    <option value="review">Review</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="compose-category">Category</label>
+                                <select id="compose-category" name="category">
+                                    <option value="">Select Category</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="compose-tags">Tags</label>
+                                <input type="text" id="compose-tags" name="tags" placeholder="Action, Drama, etc.">
+                            </div>
+                        </div>
+
+                        <!-- Rich Text Content Editor -->
+                        <div class="form-group">
+                            <label for="compose-content">Content</label>
+                            <div id="content-editor"></div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="compose-poster">Poster URL</label>
+                                <input type="url" id="compose-poster" name="poster">
+                            </div>
+                            <div class="form-group">
+                                <label for="compose-backdrop">Backdrop URL</label>
+                                <input type="url" id="compose-backdrop" name="backdrop">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="compose-year">Year</label>
+                                <input type="number" id="compose-year" name="year" min="1900" max="2030">
+                            </div>
+                            <div class="form-group">
+                                <label for="compose-rating">Rating</label>
+                                <input type="number" id="compose-rating" name="rating" min="0" max="10" step="0.1">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Content Options</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="isFeatured">
+                                    <span class="checkmark"></span>
+                                    Featured Content
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="isRecommended">
+                                    <span class="checkmark"></span>
+                                    Recommended
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="isTopAiring">
+                                    <span class="checkmark"></span>
+                                    Top Airing
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- HTML Code Mode -->
+            <div id="html-mode" class="compose-mode">
+                <div class="html-editor-header">
+                    <h3>HTML Code Editor</h3>
+                    <div class="editor-actions">
+                        <button class="btn btn-small btn-secondary" onclick="formatHTML()">Format</button>
+                        <button class="btn btn-small btn-secondary" onclick="validateHTML()">Validate</button>
+                        <button class="btn btn-small btn-secondary" onclick="previewHTML()">Preview</button>
+                    </div>
+                </div>
+                <div class="html-editor-container">
+                    <textarea id="html-editor"></textarea>
+                </div>
+                <div class="html-preview" id="html-preview" style="display: none;">
+                    <h4>Preview</h4>
+                    <iframe id="preview-frame" sandbox="allow-same-origin"></iframe>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeComposeModal()">Cancel</button>
+                <button type="button" class="btn btn-secondary" onclick="saveAsDraft()">Save Draft</button>
+                <button type="button" class="btn btn-primary" onclick="publishContent()">Publish</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Templates Manager Modal -->
+    <div id="templates-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Templates Management</h2>
+                <span class="close" onclick="closeTemplatesModal()">&times;</span>
+            </div>
+            
+            <div class="templates-management">
+                <div class="template-actions">
+                    <button class="btn btn-primary" onclick="createNewTemplate()">Create New Template</button>
+                    <button class="btn btn-secondary" onclick="importTemplate()">Import Template</button>
+                    <button class="btn btn-secondary" onclick="exportAllTemplates()">Export All</button>
+                </div>
+
+                <div class="templates-list">
+                    <h3>Saved Templates</h3>
+                    <div id="saved-templates" class="saved-templates-grid">
+                        <!-- Saved templates will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Post Modal -->
+    <div id="add-post-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Post</h2>
+                <span class="close" onclick="closeAddPostModal()">&times;</span>
+            </div>
+            <form id="add-post-form" class="post-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="post-title">Title *</label>
+                        <input type="text" id="post-title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="post-type">Type *</label>
+                        <select id="post-type" name="type" required>
+                            <option value="">Select Type</option>
+                            <option value="movie">Movie</option>
+                            <option value="anime">Anime</option>
+                            <option value="tv-show">TV Show</option>
+                            <option value="news">News</option>
+                            <option value="review">Review</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="post-category">Category *</label>
+                        <select id="post-category" name="category" required>
+                            <!-- Categories will be loaded dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="post-year">Year</label>
+                        <input type="number" id="post-year" name="year" min="1900" max="2030">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="post-duration">Duration</label>
+                        <input type="text" id="post-duration" name="duration" placeholder="e.g., 2h 30m or 24 episodes">
+                    </div>
+                    <div class="form-group">
+                        <label for="post-rating">Rating</label>
+                        <input type="number" id="post-rating" name="rating" min="0" max="10" step="0.1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="post-description">Description</label>
+                    <textarea id="post-description" name="description" rows="3"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="post-poster">Poster URL</label>
+                        <input type="url" id="post-poster" name="poster">
+                    </div>
+                    <div class="form-group">
+                        <label for="post-backdrop">Backdrop URL</label>
+                        <input type="url" id="post-backdrop" name="backdrop">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="post-genres">Genres (comma-separated)</label>
+                    <input type="text" id="post-genres" name="genres" placeholder="Action, Adventure, Sci-Fi">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="post-director">Director/Creator</label>
+                        <input type="text" id="post-director" name="director">
+                    </div>
+                    <div class="form-group">
+                        <label for="post-trailer">Trailer URL</label>
+                        <input type="url" id="post-trailer" name="trailer">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="post-cast">Cast (comma-separated)</label>
+                    <input type="text" id="post-cast" name="cast" placeholder="Actor 1, Actor 2, Actor 3">
+                </div>
+
+                <!-- Content Flags -->
+                <div class="form-group">
+                    <label>Content Flags</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="isFeatured">
+                            <span class="checkmark"></span>
+                            Featured (Hero Carousel)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="isSlideshow">
+                            <span class="checkmark"></span>
+                            Slideshow Post
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="isTopAiring">
+                            <span class="checkmark"></span>
+                            Top Airing
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="isLatestMovie">
+                            <span class="checkmark"></span>
+                            Latest Movie
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="isRecommended">
+                            <span class="checkmark"></span>
+                            Recommended
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="post-tags">Tags (comma-separated)</label>
+                    <input type="text" id="post-tags" name="tags" placeholder="action, thriller, popular">
+                </div>
+
+                <div class="form-group">
+                    <label for="post-popularity">Popularity Score</label>
+                    <input type="range" id="post-popularity" name="popularity" min="0" max="100" value="50">
+                    <span id="popularity-value">50</span>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddPostModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="scripts/admin.js"></script>
+    <script src="scripts/posts-admin.js"></script>
+</body>
+</html>

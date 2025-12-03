@@ -1,0 +1,150 @@
+{
+  "posts": [
+    {
+      "id": "john-wick-4",
+      "title": "John Wick: Chapter 4",
+      "type": "movie",
+      "category": "action",
+      "year": 2023,
+      "duration": "2h 49m",
+      "rating": 7.7,
+      "description": "John Wick uncovers a path to defeating The High Table. But before he can earn his freedom, Wick must face off against a new enemy with powerful alliances across the globe.",
+      "poster": "https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/4HWAQu39R2HxfvfEQUEeI9wGZPF.jpg",
+      "genres": ["Action", "Crime", "Thriller"],
+      "director": "Chad Stahelski",
+      "cast": ["Keanu Reeves", "Donnie Yen", "Bill Skarsgård"],
+      "trailer": "https://www.youtube.com/watch?v=qEVUtrk8_B4",
+      "streamingUrl": "streaming.html?id=john-wick-4",
+      "dateAdded": "2024-01-15",
+      "popularity": 95,
+      "flags": {
+        "isFeatured": true,
+        "isSlideshow": true,
+        "isTopAiring": false,
+        "isLatestMovie": true,
+        "isRecommended": true
+      },
+      "tags": ["action", "thriller", "keanu-reeves", "hitman"]
+    },
+    {
+      "id": "dune-part-two",
+      "title": "Dune: Part Two",
+      "type": "movie",
+      "category": "sci-fi",
+      "year": 2024,
+      "duration": "2h 46m",
+      "rating": 8.8,
+      "description": "Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family.",
+      "poster": "https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/aPecJf2k0U2rjJ0pZ3W4hC1z9y9.jpg",
+      "genres": ["Science Fiction", "Adventure", "Drama"],
+      "director": "Denis Villeneuve",
+      "cast": ["Timothée Chalamet", "Zendaya", "Rebecca Ferguson"],
+      "trailer": "https://www.youtube.com/watch?v=U2Qp5pH-BJo",
+      "streamingUrl": "streaming.html?id=dune-part-two",
+      "dateAdded": "2024-03-01",
+      "popularity": 92,
+      "flags": {
+        "isFeatured": true,
+        "isSlideshow": true,
+        "isTopAiring": false,
+        "isLatestMovie": true,
+        "isRecommended": true
+      },
+      "tags": ["sci-fi", "adventure", "dune", "desert"]
+    },
+    {
+      "id": "barbie",
+      "title": "Barbie",
+      "type": "movie",
+      "category": "comedy",
+      "year": 2023,
+      "duration": "1h 54m",
+      "rating": 6.9,
+      "description": "Barbie and Ken are having the time of their lives in the colorful and seemingly perfect world of Barbie Land. However, when they get a chance to go to the real world, they soon discover the joys and perils of living among humans.",
+      "poster": "https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/yDHZZ7g3GZ7uE5wJ1aW4e5W5Gz3.jpg",
+      "genres": ["Comedy", "Fantasy", "Adventure"],
+      "director": "Greta Gerwig",
+      "cast": ["Margot Robbie", "Ryan Gosling", "America Ferrera"],
+      "trailer": "https://www.youtube.com/watch?v=pBk4NYhWNMM",
+      "streamingUrl": "streaming.html?id=barbie",
+      "dateAdded": "2024-02-10",
+      "popularity": 88,
+      "flags": {
+        "isFeatured": false,
+        "isSlideshow": false,
+        "isTopAiring": false,
+        "isLatestMovie": true,
+        "isRecommended": true
+      },
+      "tags": ["comedy", "fantasy", "barbie", "margot-robbie"]
+    },
+    {
+      "id": "attack-on-titan-final",
+      "title": "Attack on Titan: The Final Season",
+      "type": "anime",
+      "category": "action",
+      "year": 2023,
+      "duration": "24 episodes",
+      "rating": 9.0,
+      "description": "Eren Yeager's ultimate plan comes to fruition as he begins his final assault on the source of all Titan power.",
+      "poster": "https://image.tmdb.org/t/p/w500/hTP1DtLGFamjfu8WqjnuQdP1n4i.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/f16YYj5MIXoXU8LwN3s6LWGqW6j.jpg",
+      "genres": ["Animation", "Action", "Drama"],
+      "director": "Tetsurō Araki",
+      "cast": ["Yū Shimamura", "Marina Inoue", "Yuki Kaji"],
+      "trailer": "https://www.youtube.com/watch?v=LHtdKWJdif4",
+      "streamingUrl": "streaming.html?id=attack-on-titan-final",
+      "dateAdded": "2024-01-20",
+      "popularity": 96,
+      "flags": {
+        "isFeatured": true,
+        "isSlideshow": true,
+        "isTopAiring": true,
+        "isLatestMovie": false,
+        "isRecommended": true
+      },
+      "tags": ["anime", "action", "thriller", "attack-on-titan"]
+    },
+    {
+      "id": "demon-slayer-s4",
+      "title": "Demon Slayer: Swordsmith Village Arc",
+      "type": "anime",
+      "category": "action",
+      "year": 2023,
+      "duration": "11 episodes",
+      "rating": 8.6,
+      "description": "Tanjiro and his friends accompany the Hashira to the Swordsmith Village to meet Shinobu's Tsuguko and the village's swordsmiths.",
+      "poster": "https://image.tmdb.org/t/p/w500/xXHZeb1yhJvnSHPzZDqee0Gmb6c.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/r58GuaF2Zc0gE7gWwX5W9sL6M1u5.jpg",
+      "genres": ["Animation", "Action", "Fantasy"],
+      "director": "Haruo Sotozaki",
+      "cast": ["Natsuki Hanae", "Akari Kitō", "Yoshitsugu Matsuoka"],
+      "trailer": "https://www.youtube.com/watch?v=rUxyKA_-grg",
+      "streamingUrl": "streaming.html?id=demon-slayer-s4",
+      "dateAdded": "2024-02-15",
+      "popularity": 94,
+      "flags": {
+        "isFeatured": false,
+        "isSlideshow": true,
+        "isTopAiring": true,
+        "isLatestMovie": false,
+        "isRecommended": true
+      },
+      "tags": ["anime", "action", "fantasy", "demon-slayer"]
+    }
+  ],
+  "categories": {
+    "movies": ["action", "sci-fi", "comedy", "drama", "thriller", "horror", "romance", "adventure"],
+    "anime": ["action", "romance", "comedy", "drama", "thriller", "fantasy", "isekai", "slice-of-life"],
+    "tv-shows": ["drama", "comedy", "thriller", "sci-fi", "reality", "documentary"]
+  },
+  "contentFlags": {
+    "slideshow": "Featured content for homepage hero carousel",
+    "topAiring": "Currently popular/running series",
+    "latestMovie": "Recently released movies",
+    "recommended": "Editor picks and recommendations"
+  }
+}

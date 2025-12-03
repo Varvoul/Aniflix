@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quravel - Content Management</title>
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <header class="admin-header">
+            <div class="admin-nav">
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="Quravel Logo">
+                </a>
+                <nav class="admin-nav-links">
+                    <a href="admin.html" class="admin-nav-link active">Dashboard</a>
+                    <a href="admin-status.html" class="admin-nav-link">Status</a>
+                    <a href="admin-header.html" class="admin-nav-link">Header and Menu</a>
+                    <a href="admin-homepage.html" class="admin-nav-link">Homepage</a>
+                    <a href="admin-slideshow.html" class="admin-nav-link">Slideshow</a>
+                    <a href="admin-posts.html" class="admin-nav-link">Posts</a>
+                    <a href="admin-streaming.html" class="admin-nav-link">Streaming Page</a>
+                    <a href="admin-footer.html" class="admin-nav-link">Footer and Settings</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Admin Main Content -->
+        <main class="admin-main">
+            <div class="admin-content">
+                <div class="admin-header-section">
+                    <h1>Content Management Dashboard</h1>
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" onclick="showAddPostModal()">Add New Post</button>
+                        <button class="btn btn-secondary" onclick="showAddStreamingModal()">Add Streaming Page</button>
+                        <button class="btn btn-secondary" onclick="window.location.href='admin-header.html'">Manage Header & Menu</button>
+                        <button class="btn btn-secondary" onclick="importPosts()">Import Posts</button>
+                        <button class="btn btn-secondary" onclick="exportPosts()">Export Data</button>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-content">
+                            <h3 id="total-posts">0</h3>
+                            <p>Total Posts</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎬</div>
+                        <div class="stat-content">
+                            <h3 id="slideshow-posts">0</h3>
+                            <p>Slideshow Posts</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎥</div>
+                        <div class="stat-content">
+                            <h3 id="streaming-pages">0</h3>
+                            <p>Streaming Pages</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🧭</div>
+                        <div class="stat-content">
+                            <h3 id="menu-items">4</h3>
+                            <p>Menu Items</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-content">
+                            <h3 id="recommended">0</h3>
+                            <p>Recommended</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Posts -->
+                <div class="recent-posts-section">
+                    <h2>Recent Posts</h2>
+                    <div class="posts-table">
+                        <table id="posts-table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Category</th>
+                                    <th>Flags</th>
+                                    <th>Popularity</th>
+                                    <th>Date Added</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="posts-table-body">
+                                <!-- Posts will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions-section">
+                    <h2>Quick Actions</h2>
+                    <div class="quick-actions-grid">
+                        <div class="quick-action-card" onclick="manageStreamingPages()">
+                            <div class="action-icon">🎥</div>
+                            <h3>Manage Streaming</h3>
+                            <p>Configure streaming pages</p>
+                        </div>
+                        <div class="quick-action-card" onclick="manageSlideshow()">
+                            <div class="action-icon">🎠</div>
+                            <h3>Manage Slideshow</h3>
+                            <p>Configure homepage hero carousel</p>
+                        </div>
+                        <div class="quick-action-card" onclick="manageCategories()">
+                            <div class="action-icon">📁</div>
+                            <h3>Manage Categories</h3>
+                            <p>Add and edit content categories</p>
+                        </div>
+                        <div class="quick-action-card" onclick="bulkActions()">
+                            <div class="action-icon">⚡</div>
+                            <h3>Bulk Actions</h3>
+                            <p>Edit multiple posts at once</p>
+                        </div>
+                        <div class="quick-action-card" onclick="analytics()">
+                            <div class="action-icon">📈</div>
+                            <h3>Analytics</h3>
+                            <p>View content performance</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Post Modal -->
+    <div id="add-post-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Post</h2>
+                <span class="close" onclick="closeAddPostModal()">&times;</span>
+            </div>
+            <form id="add-post-form" class="post-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="post-title">Title *</label>
+                        <input type="text" id="post-title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="post-type">Type *</label>
+                        <select id="post-type" name="type" required>
+                            <option value="">Select Type</option>
+                            <option value="movie">Movie</option>
+                            <option value="anime">Anime</option>
+                            <option value="tv-show">TV Show</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="post-category">Category *</label>
+                        <select id="post-category" name="category" required>
+                            <!-- Categories will be loaded dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="post-year">Year</label>
+                        <input type="number" id="post-year" name="year" min="1900" max="2030">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="post-duration">Duration</label>
+                        <input type="text" id="post-duration" name="duration" placeholder="e.g., 2h 30m or 24 episodes">
+                    </div>
+                    <div class="form-group">
+                        <label for="post-rating">Rating</label>
+                        <input type="number" id="post-rating" name="rating" min="0" max="10" step="0.1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="post-description">Description</label>
+                    <textarea id="post-description" name="description" rows="3"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="post-poster">Poster URL</label>
+                        <input type="url" id="post-poster" name="poster">
+                    </div>
+                    <div class="form-group">
+                        <label for="post-backdrop">Backdrop URL</label>
+                        <input type="url" id="post-backdrop" name="backdrop">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="post-genres">Genres (comma-separated)</label>
+                    <input type="text" id="post-genres" name="genres" placeholder="Action, Adventure, Sci-Fi">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="post-director">Director/Creator</label>
+                        <input type="text" id="post-director" name="director">
+                    </div>
+                    <div class="form-group">
+                        <label for="post-trailer">Trailer URL</label>
+                        <input type="url" id="post-trailer" name="trailer">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="post-cast">Cast (comma-separated)</label>
+                    <input type="text" id="post-cast" name="cast" placeholder="Actor 1, Actor 2, Actor 3">
+                </div>
+
+                <!-- Content Flags -->
+                <div class="form-group">
+                    <label>Content Flags</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="isFeatured">
+                            <span class="checkmark"></span>
+                            Featured (Hero Carousel)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="isSlideshow">
+                            <span class="checkmark"></span>
+                            Slideshow Post
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="isTopAiring">
+                            <span class="checkmark"></span>
+                            Top Airing
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="isLatestMovie">
+                            <span class="checkmark"></span>
+                            Latest Movie
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="isRecommended">
+                            <span class="checkmark"></span>
+                            Recommended
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="post-tags">Tags (comma-separated)</label>
+                    <input type="text" id="post-tags" name="tags" placeholder="action, thriller, popular">
+                </div>
+
+                <div class="form-group">
+                    <label for="post-popularity">Popularity Score</label>
+                    <input type="range" id="post-popularity" name="popularity" min="0" max="100" value="50">
+                    <span id="popularity-value">50</span>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddPostModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Streaming Page Modal -->
+    <div id="add-streaming-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Create/Manage Streaming Page</h2>
+                <span class="close" onclick="closeAddStreamingModal()">&times;</span>
+            </div>
+            <form id="add-streaming-form" class="streaming-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="streaming-title">Content Title *</label>
+                        <input type="text" id="streaming-title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="streaming-type">Content Type *</label>
+                        <select id="streaming-type" name="type" required>
+                            <option value="">Select Type</option>
+                            <option value="movie">Movie</option>
+                            <option value="anime">Anime</option>
+                            <option value="tv-show">TV Show</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="streaming-year">Release Year</label>
+                        <input type="number" id="streaming-year" name="year" min="1900" max="2030">
+                    </div>
+                    <div class="form-group">
+                        <label for="streaming-rating">IMDB Rating</label>
+                        <input type="number" id="streaming-rating" name="rating" min="0" max="10" step="0.1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="streaming-description">Description</label>
+                    <textarea id="streaming-description" name="description" rows="4"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="streaming-poster">Poster Image URL</label>
+                        <input type="url" id="streaming-poster" name="poster">
+                    </div>
+                    <div class="form-group">
+                        <label for="streaming-backdrop">Backdrop Image URL</label>
+                        <input type="url" id="streaming-backdrop" name="backdrop">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="streaming-genres">Genres (comma-separated)</label>
+                    <input type="text" id="streaming-genres" name="genres" placeholder="Action, Adventure, Drama">
+                </div>
+
+                <!-- Video Sources Section -->
+                <div class="video-sources-section">
+                    <div class="section-header">
+                        <h3>Video Sources</h3>
+                        <button type="button" class="btn btn-small btn-secondary" onclick="addVideoSource()">Add Source</button>
+                    </div>
+                    <div id="video-sources-container">
+                        <!-- Video sources will be added here -->
+                    </div>
+                </div>
+
+                <!-- Episodes Section (for TV Shows) -->
+                <div class="episodes-section" id="episodes-section" style="display: none;">
+                    <div class="section-header">
+                        <h3>Episodes</h3>
+                        <button type="button" class="btn btn-small btn-secondary" onclick="addEpisode()">Add Episode</button>
+                    </div>
+                    <div id="episodes-container">
+                        <!-- Episodes will be added here -->
+                    </div>
+                </div>
+
+                <!-- Additional Settings -->
+                <div class="form-group">
+                    <label>Page Settings</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="enableComments" checked>
+                            <span class="checkmark"></span>
+                            Enable Comments
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="enableRelated">
+                            <span class="checkmark"></span>
+                            Show Related Content
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="isPremium">
+                            <span class="checkmark"></span>
+                            Premium Content
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddStreamingModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Streaming Page</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="scripts/admin.js"></script>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section footer-links">
+                <h3>Quick Links</h3>
+                <div class="footer-links-grid">
+                    <a href="varvoul.github.io/Aniflix-/index.html">Home</a>
+                    <a href="varvoul.github.io/Aniflix-/top-imdb.html">Top IMDB</a>
+                    <a href="varvoul.github.io/Aniflix-/top-rated.html">Top Rated</a>
+                    <a href="varvoul.github.io/Aniflix-/top-anime.html">Top Anime</a>
+                    <a href="varvoul.github.io/Aniflix-/admin.html">Admin Panel</a>
+                </div>
+            </div>
+            
+            <div class="footer-section footer-contact">
+                <h3>Contact</h3>
+                <div class="contact-info">
+                    <a href="mailto:foogyfogg@proton.me" class="contact-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        Contact Us
+                    </a>
+                    <a href="https://quravel.blogspot.com/p/sent-your-movie-request.html" class="contact-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        Send Request
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-section footer-brand">
+                <div class="brand-logo">
+                    <img src="images/logo.png" alt="Quravel Logo" class="footer-logo">
+                </div>
+                <p class="copyright">© 2025 Quravel - Enhanced Streaming Platform</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p class="disclaimer">
+                    This site does not store any files on our server, we only link to the media which is hosted on 3rd party services.
+                </p>
+                <p class="keywords">Watch free movies, watch free TV shows, free movies online</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

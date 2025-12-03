@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage Management - Quravel Admin</title>
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <header class="admin-header">
+            <div class="admin-nav">
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="Quravel Logo">
+                </a>
+                <nav class="admin-nav-links">
+                    <a href="admin.html" class="admin-nav-link">Dashboard</a>
+                    <a href="admin-status.html" class="admin-nav-link">Status</a>
+                    <a href="admin-header.html" class="admin-nav-link">Header and Menu</a>
+                    <a href="admin-homepage.html" class="admin-nav-link active">Homepage</a>
+                    <a href="admin-slideshow.html" class="admin-nav-link">Slideshow</a>
+                    <a href="admin-posts.html" class="admin-nav-link">Posts</a>
+                    <a href="admin-streaming.html" class="admin-nav-link">Streaming Page</a>
+                    <a href="admin-footer.html" class="admin-nav-link">Footer and Settings</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Admin Main Content -->
+        <main class="admin-main">
+            <div class="admin-content">
+                <div class="admin-header-section">
+                    <h1>Homepage Management</h1>
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" onclick="showAddSectionModal()">Add New Section</button>
+                        <button class="btn btn-secondary" onclick="previewHomepage()">Preview Homepage</button>
+                        <button class="btn btn-secondary" onclick="resetToDefault()">Reset to Default</button>
+                        <button class="btn btn-secondary" onclick="saveHomepageSettings()">Save Changes</button>
+                    </div>
+                </div>
+
+                <!-- Homepage Settings -->
+                <div class="homepage-settings-section">
+                    <h2>Homepage Settings</h2>
+                    <div class="settings-grid">
+                        <div class="setting-card">
+                            <h4>Layout Configuration</h4>
+                            <div class="setting-control">
+                                <label>Homepage Layout</label>
+                                <select id="homepage-layout">
+                                    <option value="grid">Grid Layout</option>
+                                    <option value="list">List Layout</option>
+                                    <option value="mixed">Mixed Layout</option>
+                                </select>
+                            </div>
+                            <div class="setting-control">
+                                <label>Items Per Page</label>
+                                <input type="number" id="items-per-page" value="20" min="5" max="100">
+                            </div>
+                        </div>
+
+                        <div class="setting-card">
+                            <h4>Section Visibility</h4>
+                            <div class="setting-control">
+                                <label>Show Featured Section</label>
+                                <input type="checkbox" id="show-featured" checked>
+                            </div>
+                            <div class="setting-control">
+                                <label>Show Trending Section</label>
+                                <input type="checkbox" id="show-trending" checked>
+                            </div>
+                            <div class="setting-control">
+                                <label>Show New Releases</label>
+                                <input type="checkbox" id="show-new-releases" checked>
+                            </div>
+                            <div class="setting-control">
+                                <label>Show Recommended</label>
+                                <input type="checkbox" id="show-recommended" checked>
+                            </div>
+                        </div>
+
+                        <div class="setting-card">
+                            <h4>Content Filtering</h4>
+                            <div class="setting-control">
+                                <label>Auto-refresh Content</label>
+                                <select id="auto-refresh">
+                                    <option value="never">Never</option>
+                                    <option value="daily">Daily</option>
+                                    <option value="weekly">Weekly</option>
+                                </select>
+                            </div>
+                            <div class="setting-control">
+                                <label>Sort By</label>
+                                <select id="default-sort">
+                                    <option value="date">Date Added</option>
+                                    <option value="popularity">Popularity</option>
+                                    <option value="rating">Rating</option>
+                                    <option value="alphabetical">Alphabetical</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="setting-card">
+                            <h4>Performance</h4>
+                            <div class="setting-control">
+                                <label>Lazy Loading</label>
+                                <input type="checkbox" id="lazy-loading" checked>
+                            </div>
+                            <div class="setting-control">
+                                <label>Image Optimization</label>
+                                <input type="checkbox" id="image-optimization" checked>
+                            </div>
+                            <div class="setting-control">
+                                <label>Caching Duration</label>
+                                <select id="cache-duration">
+                                    <option value="1h">1 Hour</option>
+                                    <option value="6h">6 Hours</option>
+                                    <option value="1d" selected>1 Day</option>
+                                    <option value="1w">1 Week</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Homepage Sections Management -->
+                <div class="sections-management-section">
+                    <h2>Homepage Sections</h2>
+                    <div class="sections-container" id="sections-container">
+                        <!-- Sections will be loaded here dynamically -->
+                    </div>
+                </div>
+
+                <!-- Section Templates -->
+                <div class="section-templates-section">
+                    <h2>Section Templates</h2>
+                    <div class="templates-grid">
+                        <div class="template-card" onclick="selectSectionTemplate('hero')">
+                            <div class="template-preview hero-template">
+                                <h4>Hero Section</h4>
+                                <p>Large featured content with banner</p>
+                            </div>
+                        </div>
+                        <div class="template-card" onclick="selectSectionTemplate('content-grid')">
+                            <div class="template-preview grid-template">
+                                <h4>Content Grid</h4>
+                                <p>Multiple content items in grid</p>
+                            </div>
+                        </div>
+                        <div class="template-card" onclick="selectSectionTemplate('content-list')">
+                            <div class="template-preview list-template">
+                                <h4>Content List</h4>
+                                <p>Vertical content list</p>
+                            </div>
+                        </div>
+                        <div class="template-card" onclick="selectSectionTemplate('carousel')">
+                            <div class="template-preview carousel-template">
+                                <h4>Carousel</h4>
+                                <p>Sliding content carousel</p>
+                            </div>
+                        </div>
+                        <div class="template-card" onclick="selectSectionTemplate('featured')">
+                            <div class="template-preview featured-template">
+                                <h4>Featured Content</h4>
+                                <p>Highlighted content section</p>
+                            </div>
+                        </div>
+                        <div class="template-card" onclick="selectSectionTemplate('custom')">
+                            <div class="template-preview custom-template">
+                                <h4>Custom Section</h4>
+                                <p>Build your own section</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Assignment -->
+                <div class="content-assignment-section">
+                    <h2>Assign Content to Sections</h2>
+                    <div class="assignment-grid">
+                        <div class="assignment-controls">
+                            <div class="control-group">
+                                <label>Select Section</label>
+                                <select id="content-section-select">
+                                    <option value="">Choose a section...</option>
+                                </select>
+                            </div>
+                            <div class="control-group">
+                                <label>Filter by Type</label>
+                                <select id="content-type-filter">
+                                    <option value="">All Types</option>
+                                    <option value="movie">Movies</option>
+                                    <option value="tv-show">TV Shows</option>
+                                    <option value="anime">Anime</option>
+                                    <option value="documentary">Documentaries</option>
+                                </select>
+                            </div>
+                            <div class="control-group">
+                                <label>Search Content</label>
+                                <input type="text" id="content-search" placeholder="Search content...">
+                            </div>
+                        </div>
+
+                        <div class="content-selection-area">
+                            <h3>Available Content</h3>
+                            <div class="content-selection-grid" id="content-selection-grid">
+                                <!-- Available content will be loaded here -->
+                            </div>
+                        </div>
+
+                        <div class="assigned-content-area">
+                            <h3>Assigned to Section</h3>
+                            <div class="assigned-content-list" id="assigned-content-list">
+                                <!-- Assigned content will be shown here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Editor Modal -->
+                <div id="section-editor-modal" class="modal">
+                    <div class="modal-content modal-large">
+                        <div class="modal-header">
+                            <h2 id="section-editor-title">Edit Section</h2>
+                            <span class="close" onclick="closeSectionEditor()">&times;</span>
+                        </div>
+
+                        <div class="section-editor-content">
+                            <div class="editor-tabs">
+                                <button class="tab-btn active" onclick="switchEditorTab('settings')">Settings</button>
+                                <button class="tab-btn" onclick="switchEditorTab('content')">Content</button>
+                                <button class="tab-btn" onclick="switchEditorTab('styling')">Styling</button>
+                            </div>
+
+                            <!-- Settings Tab -->
+                            <div id="editor-settings-tab" class="editor-tab active">
+                                <div class="setting-form">
+                                    <div class="form-group">
+                                        <label for="section-name">Section Name</label>
+                                        <input type="text" id="section-name" placeholder="Enter section name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="section-title">Section Title</label>
+                                        <input type="text" id="section-title" placeholder="Enter section title">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="section-description">Description</label>
+                                        <textarea id="section-description" rows="3" placeholder="Section description..."></textarea>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="section-items-count">Items to Show</label>
+                                            <input type="number" id="section-items-count" min="1" max="50" value="10">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="section-layout">Layout Style</label>
+                                            <select id="section-layout">
+                                                <option value="grid">Grid</option>
+                                                <option value="list">List</option>
+                                                <option value="carousel">Carousel</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Section Options</label>
+                                        <div class="checkbox-group">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" id="section-show-title">
+                                                <span class="checkmark"></span>
+                                                Show Section Title
+                                            </label>
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" id="section-show-description">
+                                                <span class="checkmark"></span>
+                                                Show Description
+                                            </label>
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" id="section-infinite-scroll">
+                                                <span class="checkmark"></span>
+                                                Infinite Scroll
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Content Tab -->
+                            <div id="editor-content-tab" class="editor-tab">
+                                <div class="content-management">
+                                    <div class="content-controls">
+                                        <button class="btn btn-primary" onclick="addContentToSection()">Add Content</button>
+                                        <button class="btn btn-secondary" onclick="removeSelectedContent()">Remove Selected</button>
+                                        <button class="btn btn-secondary" onclick="clearSectionContent()">Clear All</button>
+                                    </div>
+                                    <div class="section-content-list" id="section-content-list">
+                                        <!-- Section content will be shown here -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Styling Tab -->
+                            <div id="editor-styling-tab" class="editor-tab">
+                                <div class="styling-form">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="section-background">Background Color</label>
+                                            <input type="color" id="section-background" value="#1a2332">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="section-text-color">Text Color</label>
+                                            <input type="color" id="section-text-color" value="#E4E4E7">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="section-padding">Padding (px)</label>
+                                            <input type="number" id="section-padding" value="24" min="0" max="100">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="section-margin">Margin (px)</label>
+                                            <input type="number" id="section-margin" value="16" min="0" max="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="section-border-radius">Border Radius (px)</label>
+                                        <input type="number" id="section-border-radius" value="12" min="0" max="50">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="closeSectionEditor()">Cancel</button>
+                            <button type="button" class="btn btn-secondary" onclick="saveSectionDraft()">Save Draft</button>
+                            <button type="button" class="btn btn-primary" onclick="saveSection()">Save Section</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Section Modal -->
+                <div id="add-section-modal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Add New Section</h2>
+                            <span class="close" onclick="closeAddSectionModal()">&times;</span>
+                        </div>
+                        <form id="add-section-form">
+                            <div class="form-group">
+                                <label for="new-section-name">Section Name</label>
+                                <input type="text" id="new-section-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-section-template">Section Template</label>
+                                <select id="new-section-template" required>
+                                    <option value="">Choose template...</option>
+                                    <option value="hero">Hero Section</option>
+                                    <option value="content-grid">Content Grid</option>
+                                    <option value="content-list">Content List</option>
+                                    <option value="carousel">Carousel</option>
+                                    <option value="featured">Featured Content</option>
+                                    <option value="custom">Custom Section</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-section-title">Section Title</label>
+                                <input type="text" id="new-section-title" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" onclick="closeAddSectionModal()">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Add Section</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="scripts/admin.js"></script>
+    <script src="scripts/admin-homepage.js"></script>
+
+    <!-- Footer Section -->
+    <footer style="background-color: #3D4249; padding: 30px 20px; text-align: center; color: white; font-family: Arial, sans-serif;">
+        <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px;">
+            <a href="https://quravel.blogspot.com" style="color: white; text-decoration: none; font-weight: bold;">Home</a>
+            <a href="mailto:foogyfogg@proton.me" style="color: white; text-decoration: none; font-weight: bold;">Contact Us</a>
+            <a href="https://quravel.blogspot.com/p/sent-your-movie-request.html" style="color: white; text-decoration: none; font-weight: bold;">Sent Request</a>
+        </div>
+
+        <div style="margin: 20px 0;">
+            <img src="https://cdn.imgchest.com/files/d367abae3732.png" alt="Quravel Logo" style="height: 50px; margin-bottom: 10px;">
+            <p style="font-size: 14px; margin: 5px 0;">@ 2025 Quravel</p>
+        </div>
+
+        <div style="font-size: 12px; line-height: 1.5; opacity: 0.8;">
+            <p>This site does not store any files on our server, we only linked to the media which is hosted on 3rd party services.</p>
+            <p>watch free movies, watch free tv shows, free movies online</p>
+        </div>
+    </footer>
+</body>
+</html>

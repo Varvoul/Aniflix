@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quravel - Streaming Pages Management</title>
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="styles/main.css">
+    
+    <!-- Quill.js for HTML Editor -->
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+    <script src="https://cdn.quilljs.com/1.3.7/quill-table.js"></script>
+    
+    <!-- CodeMirror for HTML Coding -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/material.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/htmlmixed/htmlmixed.min.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <header class="admin-header">
+            <div class="admin-nav">
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="Quravel Logo">
+                </a>
+                <nav class="admin-nav-links">
+                    <a href="admin.html" class="admin-nav-link">Dashboard</a>
+                    <a href="admin-status.html" class="admin-nav-link">Status</a>
+                    <a href="admin-header.html" class="admin-nav-link">Header and Menu</a>
+                    <a href="admin-homepage.html" class="admin-nav-link">Homepage</a>
+                    <a href="admin-slideshow.html" class="admin-nav-link">Slideshow</a>
+                    <a href="admin-posts.html" class="admin-nav-link">Posts</a>
+                    <a href="admin-streaming.html" class="admin-nav-link active">Streaming Page</a>
+                    <a href="admin-footer.html" class="admin-nav-link">Footer and Settings</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Admin Main Content -->
+        <main class="admin-main">
+            <div class="admin-content">
+                <div class="admin-header-section">
+                    <h1>Streaming Pages Management</h1>
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" onclick="showAddStreamingModal()">Add New Streaming Page</button>
+                        <button class="btn btn-secondary" onclick="showStreamingComposeModal()">Compose Streaming Page</button>
+                        <button class="btn btn-secondary" onclick="manageStreamingTemplates()">Manage Templates</button>
+                        <button class="btn btn-secondary" onclick="importStreamingData()">Import Data</button>
+                        <button class="btn btn-secondary" onclick="exportStreamingData()">Export Data</button>
+                    </div>
+                </div>
+
+                <!-- Streaming Pages Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🎥</div>
+                        <div class="stat-content">
+                            <h3 id="total-streaming-pages">0</h3>
+                            <p>Total Streaming Pages</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎬</div>
+                        <div class="stat-content">
+                            <h3 id="movie-streaming">0</h3>
+                            <p>Movie Streams</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📺</div>
+                        <div class="stat-content">
+                            <h3 id="tv-streaming">0</h3>
+                            <p>TV Show Streams</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-content">
+                            <h3 id="total-views">0</h3>
+                            <p>Total Views</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Streaming Pages Table -->
+                <div class="streaming-pages-section">
+                    <div class="section-header">
+                        <h2>All Streaming Pages</h2>
+                        <div class="filter-controls">
+                            <select id="type-filter" onchange="filterStreamingPages()">
+                                <option value="">All Types</option>
+                                <option value="movie">Movies</option>
+                                <option value="tv-show">TV Shows</option>
+                                <option value="anime">Anime</option>
+                            </select>
+                            <input type="text" id="search-streaming" placeholder="Search streaming pages..." onkeyup="filterStreamingPages()">
+                        </div>
+                    </div>
+                    <div class="streaming-table">
+                        <table id="streaming-table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Year</th>
+                                    <th>Rating</th>
+                                    <th>Sources</th>
+                                    <th>Episodes</th>
+                                    <th>Views</th>
+                                    <th>Likes</th>
+                                    <th>Date Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="streaming-table-body">
+                                <!-- Streaming pages will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions-section">
+                    <h2>Quick Actions</h2>
+                    <div class="quick-actions-grid">
+                        <div class="quick-action-card" onclick="bulkManageSources()">
+                            <div class="action-icon">🔗</div>
+                            <h3>Bulk Source Management</h3>
+                            <p>Update video sources in bulk</p>
+                        </div>
+                        <div class="quick-action-card" onclick="generateEmbedCodes()">
+                            <div class="action-icon">🔗</div>
+                            <h3>Generate Embed Codes</h3>
+                            <p>Create embed codes for external sites</p>
+                        </div>
+                        <div class="quick-action-card" onclick="checkBrokenLinks()">
+                            <div class="action-icon">🔍</div>
+                            <h3>Check Broken Links</h3>
+                            <p>Find and fix broken streaming links</p>
+                        </div>
+                        <div class="quick-action-card" onclick="streamingAnalytics()">
+                            <div class="action-icon">📈</div>
+                            <h3>Streaming Analytics</h3>
+                            <p>View streaming performance metrics</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Streaming Page Modal -->
+    <div id="add-streaming-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Add New Streaming Page</h2>
+                <span class="close" onclick="closeAddStreamingModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="add-streaming-form" onsubmit="submitAddStreamingForm(event)">
+                    <!-- Basic Information -->
+                    <div class="form-section">
+                        <h3>Basic Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Title *</label>
+                                <input type="text" name="title" placeholder="Enter title" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Type *</label>
+                                <select name="type" id="streaming-type" required onchange="toggleEpisodesSection()">
+                                    <option value="">Select Type</option>
+                                    <option value="movie">Movie</option>
+                                    <option value="tv-show">TV Show</option>
+                                    <option value="anime">Anime</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Year</label>
+                                <input type="number" name="year" min="1900" max="2030" value="2024">
+                            </div>
+                            <div class="form-group">
+                                <label>Rating (0-10)</label>
+                                <input type="number" name="rating" min="0" max="10" step="0.1" value="8.0">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea name="description" rows="3" placeholder="Enter description"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Media Information -->
+                    <div class="form-section">
+                        <h3>Media Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Poster Image URL</label>
+                                <input type="url" name="poster" placeholder="https://example.com/poster.jpg">
+                            </div>
+                            <div class="form-group">
+                                <label>Backdrop Image URL</label>
+                                <input type="url" name="backdrop" placeholder="https://example.com/backdrop.jpg">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Genres (comma separated)</label>
+                            <input type="text" name="genres" placeholder="Action, Drama, Comedy">
+                        </div>
+                    </div>
+
+                    <!-- Video Sources -->
+                    <div class="form-section">
+                        <h3>Video Sources</h3>
+                        <div id="video-sources-container">
+                            <!-- Video sources will be added here -->
+                        </div>
+                        <button type="button" class="btn btn-secondary" onclick="addVideoSource()">Add Video Source</button>
+                    </div>
+
+                    <!-- Episodes Management -->
+                    <div class="form-section" id="episodes-section" style="display: none;">
+                        <h3>Episodes Management</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Content Type</label>
+                                <select name="episode_type" onchange="toggleEpisodeType()">
+                                    <option value="single-season">Single Season</option>
+                                    <option value="multi-season">Multiple Seasons</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Single Season Episodes -->
+                        <div id="single-season-episodes" class="episode-type-section">
+                            <div id="episodes-container">
+                                <!-- Episodes will be added here -->
+                            </div>
+                            <button type="button" class="btn btn-secondary" onclick="addEpisode()">Add Episode</button>
+                        </div>
+                        <!-- Multi Season Episodes -->
+                        <div id="multi-season-episodes" class="episode-type-section" style="display: none;">
+                            <div id="seasons-container">
+                                <!-- Seasons will be added here -->
+                            </div>
+                            <button type="button" class="btn btn-secondary" onclick="addSeason()">Add Season</button>
+                        </div>
+                    </div>
+
+                    <!-- Streaming Page Sections -->
+                    <div class="form-section">
+                        <h3>Streaming Page Sections</h3>
+                        <p class="section-description">Manage "You May Like This" and "Recommended" sections for this streaming page</p>
+                        
+                        <!-- You May Like This Section -->
+                        <div class="section-management">
+                            <h4>You May Like This</h4>
+                            <div id="you-may-like-container">
+                                <!-- Content items will be added here -->
+                            </div>
+                            <button type="button" class="btn btn-secondary" onclick="addSectionContent('you-may-like')">Add Content</button>
+                        </div>
+                        
+                        <!-- Recommended Section -->
+                        <div class="section-management">
+                            <h4>Recommended</h4>
+                            <div id="recommended-container">
+                                <!-- Content items will be added here -->
+                            </div>
+                            <button type="button" class="btn btn-secondary" onclick="addSectionContent('recommended')">Add Content</button>
+                        </div>
+                    </div>
+
+                    <!-- Page Settings -->
+                    <div class="form-section">
+                        <h3>Page Settings</h3>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="enableComments" checked>
+                                <span class="checkmark"></span>
+                                Enable Comments
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="enableRelated" checked>
+                                <span class="checkmark"></span>
+                                Show Related Content
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="isPremium">
+                                <span class="checkmark"></span>
+                                Premium Content
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeAddStreamingModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Streaming Page</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Streaming Page Modal -->
+    <div id="edit-streaming-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Edit Streaming Page</h2>
+                <span class="close" onclick="closeEditStreamingModal()">&times;</span>
+            </div>
+            <div id="edit-streaming-content">
+                <!-- Edit form content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Streaming Compose Modal -->
+    <div id="streaming-compose-modal" class="modal modal-large">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Compose Streaming Page</h2>
+                <span class="close" onclick="closeStreamingComposeModal()">&times;</span>
+            </div>
+            
+            <!-- Compose Mode Tabs -->
+            <div class="compose-tabs">
+                <button class="tab-btn active" onclick="switchStreamingComposeMode('template')">
+                    <i class="icon-template"></i>
+                    Template Mode
+                </button>
+                <button class="tab-btn" onclick="switchStreamingComposeMode('html')">
+                    <i class="icon-code"></i>
+                    HTML Code Mode
+                </button>
+            </div>
+
+            <!-- Template Mode -->
+            <div id="streaming-template-mode" class="compose-mode active">
+                <div class="template-selection">
+                    <h3>Choose Streaming Template</h3>
+                    <div class="template-grid">
+                        <div class="template-card" onclick="selectStreamingTemplate('movie-player')">
+                            <div class="template-preview movie-template-preview">
+                                <h4>Movie Player</h4>
+                                <p>Full-screen movie streaming layout</p>
+                            </div>
+                        </div>
+                        <div class="template-card" onclick="selectStreamingTemplate('tv-show-player')">
+                            <div class="template-preview tv-template-preview">
+                                <h4>TV Show Player</h4>
+                                <p>Multi-episode streaming layout</p>
+                            </div>
+                        </div>
+                        <div class="template-card" onclick="selectStreamingTemplate('anime-player')">
+                            <div class="template-preview anime-template-preview">
+                                <h4>Anime Player</h4>
+                                <p>Anime-specific streaming layout</p>
+                            </div>
+                        </div>
+                        <div class="template-card" onclick="selectStreamingTemplate('custom-streaming')">
+                            <div class="template-preview custom-template-preview">
+                                <h4>Custom</h4>
+                                <p>Build your own streaming layout</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="template-editor" id="streaming-template-editor" style="display: none;">
+                    <h3>Customize Streaming Template</h3>
+                    <form id="streaming-template-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="streaming-compose-title">Title *</label>
+                                <input type="text" id="streaming-compose-title" name="title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="streaming-compose-type">Type *</label>
+                                <select id="streaming-compose-type" name="type" required>
+                                    <option value="">Select Type</option>
+                                    <option value="movie">Movie</option>
+                                    <option value="tv-show">TV Show</option>
+                                    <option value="anime">Anime</option>
+                                    <option value="documentary">Documentary</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="streaming-compose-year">Year</label>
+                                <input type="number" id="streaming-compose-year" name="year" min="1900" max="2030">
+                            </div>
+                            <div class="form-group">
+                                <label for="streaming-compose-rating">Rating</label>
+                                <input type="number" id="streaming-compose-rating" name="rating" min="0" max="10" step="0.1">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="streaming-compose-description">Description</label>
+                            <div id="streaming-content-editor"></div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="streaming-compose-poster">Poster URL</label>
+                                <input type="url" id="streaming-compose-poster" name="poster">
+                            </div>
+                            <div class="form-group">
+                                <label for="streaming-compose-backdrop">Backdrop URL</label>
+                                <input type="url" id="streaming-compose-backdrop" name="backdrop">
+                            </div>
+                        </div>
+
+                        <!-- Video Sources Section -->
+                        <div class="video-sources-management">
+                            <h4>Video Sources</h4>
+                            <div id="streaming-video-sources-container">
+                                <!-- Video sources will be added dynamically -->
+                            </div>
+                            <button type="button" class="btn btn-small btn-secondary" onclick="addStreamingVideoSource()">Add Video Source</button>
+                        </div>
+
+                        <!-- Episodes Section -->
+                        <div class="episodes-management" id="streaming-episodes-section" style="display: none;">
+                            <h4>Episodes Management</h4>
+                            <div id="streaming-episodes-container">
+                                <!-- Episodes will be added dynamically -->
+                            </div>
+                            <button type="button" class="btn btn-small btn-secondary" onclick="addStreamingEpisode()">Add Episode</button>
+                        </div>
+
+                        <!-- Streaming Settings -->
+                        <div class="streaming-settings">
+                            <h4>Streaming Settings</h4>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="enableComments" checked>
+                                    <span class="checkmark"></span>
+                                    Enable Comments
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="enableRelated" checked>
+                                    <span class="checkmark"></span>
+                                    Show Related Content
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="isPremium">
+                                    <span class="checkmark"></span>
+                                    Premium Content
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Sections Management -->
+                        <div class="sections-management">
+                            <h4>Content Sections</h4>
+                            
+                            <!-- You May Like This Section -->
+                            <div class="section-block">
+                                <h5>You May Like This</h5>
+                                <div id="you-may-like-container">
+                                    <!-- Content items will be added here -->
+                                </div>
+                                <button type="button" class="btn btn-small btn-secondary" onclick="addSectionContent('youMayLikeThis')">Add Content</button>
+                            </div>
+
+                            <!-- Recommended Section -->
+                            <div class="section-block">
+                                <h5>Recommended</h5>
+                                <div id="recommended-container">
+                                    <!-- Content items will be added here -->
+                                </div>
+                                <button type="button" class="btn btn-small btn-secondary" onclick="addSectionContent('recommended')">Add Content</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- HTML Code Mode -->
+            <div id="streaming-html-mode" class="compose-mode">
+                <div class="html-editor-header">
+                    <h3>Streaming HTML Code Editor</h3>
+                    <div class="editor-actions">
+                        <button class="btn btn-small btn-secondary" onclick="formatStreamingHTML()">Format</button>
+                        <button class="btn btn-small btn-secondary" onclick="validateStreamingHTML()">Validate</button>
+                        <button class="btn btn-small btn-secondary" onclick="previewStreamingHTML()">Preview</button>
+                    </div>
+                </div>
+                <div class="html-editor-container">
+                    <textarea id="streaming-html-editor"></textarea>
+                </div>
+                <div class="html-preview" id="streaming-html-preview" style="display: none;">
+                    <h4>Preview</h4>
+                    <iframe id="streaming-preview-frame" sandbox="allow-same-origin"></iframe>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeStreamingComposeModal()">Cancel</button>
+                <button type="button" class="btn btn-secondary" onclick="saveStreamingAsDraft()">Save Draft</button>
+                <button type="button" class="btn btn-primary" onclick="publishStreamingContent()">Publish</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Streaming Templates Manager Modal -->
+    <div id="streaming-templates-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Streaming Templates Management</h2>
+                <span class="close" onclick="closeStreamingTemplatesModal()">&times;</span>
+            </div>
+            
+            <div class="templates-management">
+                <div class="template-actions">
+                    <button class="btn btn-primary" onclick="createNewStreamingTemplate()">Create New Template</button>
+                    <button class="btn btn-secondary" onclick="importStreamingTemplate()">Import Template</button>
+                    <button class="btn btn-secondary" onclick="exportAllStreamingTemplates()">Export All</button>
+                </div>
+
+                <div class="templates-list">
+                    <h3>Saved Streaming Templates</h3>
+                    <div id="saved-streaming-templates" class="saved-templates-grid">
+                        <!-- Saved streaming templates will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/admin-streaming.js"></script>
+    <script src="scripts/admin.js"></script>
+
+    <!-- Footer Section -->
+    <footer style="background-color: #3D4249; padding: 30px 20px; text-align: center; color: white; font-family: Arial, sans-serif;">
+        <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px;">
+            <a href="https://quravel.blogspot.com" style="color: white; text-decoration: none; font-weight: bold;">Home</a>
+            <a href="mailto:foogyfogg@proton.me" style="color: white; text-decoration: none; font-weight: bold;">Contact Us</a>
+            <a href="https://quravel.blogspot.com/p/sent-your-movie-request.html" style="color: white; text-decoration: none; font-weight: bold;">Sent Request</a>
+        </div>
+
+        <div style="margin: 20px 0;">
+            <img src="https://cdn.imgchest.com/files/d367abae3732.png" alt="Quravel Logo" style="height: 50px; margin-bottom: 10px;">
+            <p style="font-size: 14px; margin: 5px 0;">@ 2025 Quravel</p>
+        </div>
+
+        <div style="font-size: 12px; line-height: 1.5; opacity: 0.8;">
+            <p>This site does not store any files on our server, we only linked to the media which is hosted on 3rd party services.</p>
+            <p>watch free movies, watch free tv shows, free movies online</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Test Slideshow</title>
+</head>
+<body>
+    <h1>Setting up test slideshow configuration...</h1>
+    <p>This will configure the slideshow with 3 test posts and refresh the page.</p>
+    
+    <script>
+        // Test slideshow configuration
+        const testSlideshow = {
+            "posts": [
+                {
+                    "id": "john-wick-4",
+                    "title": "John Wick: Chapter 4",
+                    "type": "movie",
+                    "category": "action",
+                    "year": 2023,
+                    "duration": "2h 49m",
+                    "rating": 7.7,
+                    "description": "John Wick uncovers a path to defeating The High Table.",
+                    "poster": "https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg",
+                    "backdrop": "https://image.tmdb.org/t/p/w1280/4HWAQu39R2HxfvfEQUEeI9wGZPF.jpg",
+                    "genres": ["Action", "Crime", "Thriller"],
+                    "director": "Chad Stahelski",
+                    "cast": ["Keanu Reeves", "Donnie Yen", "Bill Skarsgård"],
+                    "trailer": "https://www.youtube.com/watch?v=qEVUtrk8_B4",
+                    "streamingUrl": "streaming.html?id=john-wick-4",
+                    "dateAdded": "2024-01-15",
+                    "popularity": 95,
+                    "quality": "4K",
+                    "contentRating": "R",
+                    "flags": {
+                        "isFeatured": true,
+                        "isSlideshow": true,
+                        "isTopAiring": false,
+                        "isLatestMovie": true,
+                        "isRecommended": true
+                    },
+                    "tags": ["action", "thriller", "keanu-reeves", "hitman"]
+                },
+                {
+                    "id": "dune-part-two",
+                    "title": "Dune: Part Two",
+                    "type": "movie",
+                    "category": "sci-fi",
+                    "year": 2024,
+                    "duration": "2h 46m",
+                    "rating": 8.8,
+                    "description": "Paul Atreides unites with Chani and the Fremen.",
+                    "poster": "https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
+                    "backdrop": "https://image.tmdb.org/t/p/w1280/aPecJf2k0U2rjJ0pZ3W4hC1z9y9.jpg",
+                    "genres": ["Science Fiction", "Adventure", "Drama"],
+                    "director": "Denis Villeneuve",
+                    "cast": ["Timothée Chalamet", "Zendaya", "Rebecca Ferguson"],
+                    "trailer": "https://www.youtube.com/watch?v=U2Qp5pH-BJo",
+                    "streamingUrl": "streaming.html?id=dune-part-two",
+                    "dateAdded": "2024-03-01",
+                    "popularity": 92,
+                    "quality": "4K",
+                    "contentRating": "PG-13",
+                    "flags": {
+                        "isFeatured": true,
+                        "isSlideshow": true,
+                        "isTopAiring": false,
+                        "isLatestMovie": true,
+                        "isRecommended": true
+                    },
+                    "tags": ["sci-fi", "adventure", "dune", "timothee-chalamet"]
+                },
+                {
+                    "id": "barbie-2023",
+                    "title": "Barbie",
+                    "type": "movie",
+                    "category": "comedy",
+                    "year": 2023,
+                    "duration": "1h 54m",
+                    "rating": 7.0,
+                    "description": "Barbie and Ken are having the time of their lives in the colorful and seemingly perfect world of Barbie Land.",
+                    "poster": "https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg",
+                    "backdrop": "https://image.tmdb.org/t/p/w1280/7RPrN2K5f1m2Y0S0h8eDflH5l8h.jpg",
+                    "genres": ["Comedy", "Fantasy", "Adventure"],
+                    "director": "Greta Gerwig",
+                    "cast": ["Margot Robbie", "Ryan Gosling", "America Ferrera"],
+                    "trailer": "https://www.youtube.com/watch?v=pBk4NYhWNMM",
+                    "streamingUrl": "streaming.html?id=barbie-2023",
+                    "dateAdded": "2023-07-21",
+                    "popularity": 88,
+                    "quality": "4K",
+                    "contentRating": "PG-13",
+                    "flags": {
+                        "isFeatured": true,
+                        "isSlideshow": true,
+                        "isTopAiring": false,
+                        "isLatestMovie": true,
+                        "isRecommended": true
+                    },
+                    "tags": ["comedy", "fantasy", "barbie", "margot-robbie"]
+                }
+            ],
+            "settings": {
+                "autoplayEnabled": true,
+                "slideInterval": 8,
+                "maxSlides": 10,
+                "transitionEffect": "fade"
+            },
+            "lastUpdated": "2025-12-03T12:03:08.000Z"
+        };
+
+        // Save to localStorage
+        localStorage.setItem('quravel-slideshow', JSON.stringify(testSlideshow));
+        
+        // Show success message and redirect
+        document.body.innerHTML = `
+            <h1>✅ Slideshow Configuration Set!</h1>
+            <p>Test slideshow has been configured with 3 posts:</p>
+            <ul>
+                <li>John Wick: Chapter 4</li>
+                <li>Dune: Part Two</li>
+                <li>Barbie</li>
+            </ul>
+            <p><a href="index.html">Go to Homepage</a> to see the dynamic slideshow in action!</p>
+            <p><a href="admin-slideshow.html">Go to Admin Panel</a> to manage slideshow settings.</p>
+        `;
+        
+        // Auto-redirect after 3 seconds
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 3000);
+    </script>
+</body>
+</html>

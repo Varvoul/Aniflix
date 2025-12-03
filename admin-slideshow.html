@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quravel - Slideshow Management</title>
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <header class="admin-header">
+            <div class="admin-nav">
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="Quravel Logo">
+                </a>
+                <nav class="admin-nav-links">
+                    <a href="admin.html" class="admin-nav-link">Dashboard</a>
+                    <a href="admin-status.html" class="admin-nav-link">Status</a>
+                    <a href="admin-header.html" class="admin-nav-link">Header and Menu</a>
+                    <a href="admin-homepage.html" class="admin-nav-link">Homepage</a>
+                    <a href="admin-slideshow.html" class="admin-nav-link active">Slideshow</a>
+                    <a href="admin-posts.html" class="admin-nav-link">Posts</a>
+                    <a href="admin-streaming.html" class="admin-nav-link">Streaming Page</a>
+                    <a href="admin-footer.html" class="admin-nav-link">Footer and Settings</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Admin Main Content -->
+        <main class="admin-main">
+            <div class="admin-content">
+                <div class="admin-header-section">
+                    <h1>Slideshow Management</h1>
+                    <div class="admin-actions">
+                        <button class="btn btn-secondary" onclick="previewSlideshow()">Preview</button>
+                        <button class="btn btn-primary" onclick="saveSlideshow()">Save Changes</button>
+                    </div>
+                </div>
+
+                <!-- Slideshow Settings -->
+                <div class="slideshow-settings-section">
+                    <h2>Slideshow Settings</h2>
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <label for="autoplay-enabled">Auto-play</label>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="autoplay-enabled" checked>
+                                <span class="slider"></span>
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <label for="slide-interval">Slide Interval (seconds)</label>
+                            <input type="number" id="slide-interval" min="3" max="30" value="5">
+                        </div>
+                        <div class="setting-group">
+                            <label for="max-slides">Max Slides</label>
+                            <input type="number" id="max-slides" min="1" max="15" value="10">
+                        </div>
+                        <div class="setting-group">
+                            <label for="transition-effect">Transition Effect</label>
+                            <select id="transition-effect">
+                                <option value="fade">Fade</option>
+                                <option value="slide">Slide</option>
+                                <option value="zoom">Zoom</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Slideshow Posts -->
+                <div class="current-slideshow-section">
+                    <h2>Current Slideshow Posts</h2>
+                    <div class="slideshow-posts-grid" id="current-slideshow-posts">
+                        <!-- Current slideshow posts will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Available Posts -->
+                <div class="available-posts-section">
+                    <h2>Available Posts</h2>
+                    <div class="posts-filter">
+                        <input type="text" id="post-search" placeholder="Search posts..." onkeyup="filterPosts()">
+                        <select id="type-filter" onchange="filterPosts()">
+                            <option value="">All Types</option>
+                            <option value="movie">Movies</option>
+                            <option value="anime">Anime</option>
+                            <option value="tv-show">TV Shows</option>
+                        </select>
+                        <select id="sort-filter" onchange="filterPosts()">
+                            <option value="title">Sort by Title</option>
+                            <option value="popularity">Sort by Popularity</option>
+                            <option value="dateAdded">Sort by Date Added</option>
+                        </select>
+                    </div>
+                    <div class="available-posts-grid" id="available-posts-grid">
+                        <!-- Available posts will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- HTML Compose Section -->
+                <div class="html-compose-section">
+                    <h2>HTML Compose Mode</h2>
+                    <div class="compose-controls">
+                        <button class="btn btn-secondary" onclick="toggleComposeMode()">Toggle Compose Mode</button>
+                        <button class="btn btn-secondary" onclick="validateHTML()">Validate HTML</button>
+                        <button class="btn btn-secondary" onclick="previewHTML()">Preview HTML</button>
+                    </div>
+                    <div class="html-composer" id="html-composer" style="display: none;">
+                        <div class="composer-tabs">
+                            <button class="tab-btn active" onclick="switchComposerTab('edit')">HTML Editor</button>
+                            <button class="tab-btn" onclick="switchComposerTab('preview')">Preview</button>
+                        </div>
+                        <div class="composer-content">
+                            <div id="html-edit-tab" class="composer-tab active">
+                                <textarea id="html-editor" placeholder="Enter custom HTML for slideshow..."></textarea>
+                            </div>
+                            <div id="html-preview-tab" class="composer-tab">
+                                <div id="html-preview-content"></div>
+                            </div>
+                        </div>
+                        <div class="composer-actions">
+                            <button class="btn btn-primary" onclick="applyHTML()">Apply HTML</button>
+                            <button class="btn btn-secondary" onclick="resetHTML()">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Slideshow Preview Modal -->
+    <div id="slideshow-preview-modal" class="modal">
+        <div class="modal-content" style="max-width: 1000px;">
+            <div class="modal-header">
+                <h2>Slideshow Preview</h2>
+                <span class="close" onclick="closeSlideshowPreview()">&times;</span>
+            </div>
+            <div class="preview-content">
+                <div class="slideshow-preview" id="slideshow-preview-container">
+                    <!-- Slideshow preview will be rendered here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/slideshow-admin.js"></script>
+
+    <!-- Footer Section -->
+    <footer style="background-color: #3D4249; padding: 30px 20px; text-align: center; color: white; font-family: Arial, sans-serif;">
+        <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px;">
+            <a href="https://quravel.blogspot.com" style="color: white; text-decoration: none; font-weight: bold;">Home</a>
+            <a href="mailto:foogyfogg@proton.me" style="color: white; text-decoration: none; font-weight: bold;">Contact Us</a>
+            <a href="https://quravel.blogspot.com/p/sent-your-movie-request.html" style="color: white; text-decoration: none; font-weight: bold;">Sent Request</a>
+        </div>
+
+        <div style="margin: 20px 0;">
+            <img src="https://cdn.imgchest.com/files/d367abae3732.png" alt="Quravel Logo" style="height: 50px; margin-bottom: 10px;">
+            <p style="font-size: 14px; margin: 5px 0;">@ 2025 Quravel</p>
+        </div>
+
+        <div style="font-size: 12px; line-height: 1.5; opacity: 0.8;">
+            <p>This site does not store any files on our server, we only linked to the media which is hosted on 3rd party services.</p>
+            <p>watch free movies, watch free tv shows, free movies online</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer & Settings - Quravel Admin</title>
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <header class="admin-header">
+            <div class="admin-nav">
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="Quravel Logo">
+                </a>
+                <nav class="admin-nav-links">
+                    <a href="admin.html" class="admin-nav-link">Dashboard</a>
+                    <a href="admin-status.html" class="admin-nav-link">Status</a>
+                    <a href="admin-header.html" class="admin-nav-link">Header and Menu</a>
+                    <a href="admin-homepage.html" class="admin-nav-link">Homepage</a>
+                    <a href="admin-slideshow.html" class="admin-nav-link">Slideshow</a>
+                    <a href="admin-posts.html" class="admin-nav-link">Posts</a>
+                    <a href="admin-streaming.html" class="admin-nav-link">Streaming Page</a>
+                    <a href="admin-footer.html" class="admin-nav-link active">Footer and Settings</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Admin Main Content -->
+        <main class="admin-main">
+            <div class="admin-content">
+                <div class="admin-header-section">
+                    <h1>Footer & Website Settings</h1>
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" onclick="saveAllSettings()">Save All Settings</button>
+                        <button class="btn btn-secondary" onclick="resetToDefaults()">Reset to Defaults</button>
+                        <button class="btn btn-secondary" onclick="exportSettings()">Export Settings</button>
+                        <button class="btn btn-secondary" onclick="importSettings()">Import Settings</button>
+                    </div>
+                </div>
+
+                <!-- Settings Tabs -->
+                <div class="settings-tabs">
+                    <button class="tab-btn active" onclick="switchSettingsTab('general')">
+                        <span class="icon-general"></span>
+                        General
+                    </button>
+                    <button class="tab-btn" onclick="switchSettingsTab('seo')">
+                        <span class="icon-seo"></span>
+                        SEO & Meta
+                    </button>
+                    <button class="tab-btn" onclick="switchSettingsTab('tracking')">
+                        <span class="icon-tracking"></span>
+                        Analytics & Tracking
+                    </button>
+                    <button class="tab-btn" onclick="switchSettingsTab('robots')">
+                        <span class="icon-robots"></span>
+                        Robots & Crawlers
+                    </button>
+                    <button class="tab-btn" onclick="switchSettingsTab('errors')">
+                        <span class="icon-errors"></span>
+                        Errors & Redirects
+                    </button>
+                    <button class="tab-btn" onclick="switchSettingsTab('footer')">
+                        <span class="icon-footer"></span>
+                        Footer Management
+                    </button>
+                </div>
+
+                <!-- General Settings -->
+                <div id="general-settings" class="settings-content active">
+                    <div class="settings-section">
+                        <h2>Website Information</h2>
+                        <div class="settings-grid">
+                            <div class="setting-card">
+                                <div class="form-group">
+                                    <label for="website-title">Website Title</label>
+                                    <input type="text" id="website-title" placeholder="Enter website title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="website-description">Website Description</label>
+                                    <textarea id="website-description" rows="3" placeholder="Enter website description"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="website-keywords">Keywords (comma-separated)</label>
+                                    <input type="text" id="website-keywords" placeholder="Enter keywords">
+                                </div>
+                            </div>
+
+                            <div class="setting-card">
+                                <div class="form-group">
+                                    <label for="favicon-upload">Favicon</label>
+                                    <div class="favicon-upload">
+                                        <input type="file" id="favicon-upload" accept="image/*">
+                                        <div class="favicon-preview" id="favicon-preview">
+                                            <img src="https://via.placeholder.com/32x32" alt="Favicon Preview">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="timezone">Timezone</label>
+                                    <select id="timezone">
+                                        <option value="UTC">UTC</option>
+                                        <option value="America/New_York">Eastern Time</option>
+                                        <option value="America/Chicago">Central Time</option>
+                                        <option value="America/Denver">Mountain Time</option>
+                                        <option value="America/Los_Angeles">Pacific Time</option>
+                                        <option value="Europe/London">GMT</option>
+                                        <option value="Europe/Paris">CET</option>
+                                        <option value="Asia/Tokyo">JST</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="language">Default Language</label>
+                                    <select id="language">
+                                        <option value="en">English</option>
+                                        <option value="es">Spanish</option>
+                                        <option value="fr">French</option>
+                                        <option value="de">German</option>
+                                        <option value="it">Italian</option>
+                                        <option value="pt">Portuguese</option>
+                                        <option value="zh">Chinese</option>
+                                        <option value="ja">Japanese</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Contact Information</h2>
+                        <div class="settings-grid">
+                            <div class="setting-card">
+                                <div class="form-group">
+                                    <label for="contact-email">Contact Email</label>
+                                    <input type="email" id="contact-email" placeholder="contact@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="support-email">Support Email</label>
+                                    <input type="email" id="support-email" placeholder="support@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="privacy-email">Privacy Email</label>
+                                    <input type="email" id="privacy-email" placeholder="privacy@example.com">
+                                </div>
+                            </div>
+
+                            <div class="setting-card">
+                                <div class="form-group">
+                                    <label for="phone-number">Phone Number</label>
+                                    <input type="tel" id="phone-number" placeholder="+1 (555) 123-4567">
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <textarea id="address" rows="3" placeholder="Enter business address"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="business-hours">Business Hours</label>
+                                    <input type="text" id="business-hours" placeholder="Mon-Fri 9AM-5PM">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEO & Meta Settings -->
+                <div id="seo-settings" class="settings-content">
+                    <div class="settings-section">
+                        <h2>Meta Tags</h2>
+                        <div class="settings-grid">
+                            <div class="setting-card">
+                                <div class="form-group">
+                                    <label for="meta-description">Meta Description</label>
+                                    <textarea id="meta-description" rows="3" placeholder="Enter meta description for homepage"></textarea>
+                                    <small class="char-count">0/160 characters</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="meta-keywords">Meta Keywords</label>
+                                    <textarea id="meta-keywords" rows="3" placeholder="Enter meta keywords"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="meta-author">Meta Author</label>
+                                    <input type="text" id="meta-author" placeholder="Author name">
+                                </div>
+                            </div>
+
+                            <div class="setting-card">
+                                <div class="form-group">
+                                    <label for="og-title">Open Graph Title</label>
+                                    <input type="text" id="og-title" placeholder="Title for social media sharing">
+                                </div>
+                                <div class="form-group">
+                                    <label for="og-description">Open Graph Description</label>
+                                    <textarea id="og-description" rows="3" placeholder="Description for social media sharing"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="og-image">Open Graph Image URL</label>
+                                    <input type="url" id="og-image" placeholder="https://example.com/image.jpg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Page-Specific Meta Tags</h2>
+                        <div class="page-meta-tabs">
+                            <button class="tab-btn active" onclick="switchMetaTab('homepage')">Homepage</button>
+                            <button class="tab-btn" onclick="switchMetaTab('archive')">Archive & Search</button>
+                            <button class="tab-btn" onclick="switchMetaTab('content')">Post & Page</button>
+                        </div>
+
+                        <div id="homepage-meta" class="meta-content active">
+                            <div class="form-group">
+                                <label for="homepage-title-tag">Homepage Title Tag</label>
+                                <input type="text" id="homepage-title-tag" placeholder="Enter custom title tag">
+                            </div>
+                            <div class="form-group">
+                                <label for="homepage-meta-description">Homepage Meta Description</label>
+                                <textarea id="homepage-meta-description" rows="2"></textarea>
+                            </div>
+                        </div>
+
+                        <div id="archive-meta" class="meta-content">
+                            <div class="form-group">
+                                <label for="archive-title-tag">Archive Title Tag</label>
+                                <input type="text" id="archive-title-tag" placeholder="Enter archive title tag">
+                            </div>
+                            <div class="form-group">
+                                <label for="search-title-tag">Search Title Tag</label>
+                                <input type="text" id="search-title-tag" placeholder="Enter search title tag">
+                            </div>
+                        </div>
+
+                        <div id="content-meta" class="meta-content">
+                            <div class="form-group">
+                                <label for="post-title-pattern">Post Title Pattern</label>
+                                <input type="text" id="post-title-pattern" placeholder="{post_title} - {site_name}">
+                                <small>Use {post_title}, {site_name}, {category} variables</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="post-meta-description">Auto-generate Meta Description</label>
+                                <select id="post-meta-description">
+                                    <option value="excerpt">From Post Excerpt</option>
+                                    <option value="content">From Content (first 160 chars)</option>
+                                    <option value="custom">Custom Field</option>
+                                    <option value="disabled">Disabled</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Google Search Console</h2>
+                        <div class="setting-card">
+                            <div class="form-group">
+                                <label for="google-search-console">Google Search Console Verification Code</label>
+                                <input type="text" id="google-search-console" placeholder="Enter verification code">
+                            </div>
+                            <div class="form-group">
+                                <label for="google-analytics-id">Google Analytics Tracking ID</label>
+                                <input type="text" id="google-analytics-id" placeholder="GA_TRACKING_ID">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics & Tracking Settings -->
+                <div id="tracking-settings" class="settings-content">
+                    <div class="settings-section">
+                        <h2>Google Analytics & Tag Manager</h2>
+                        <div class="settings-grid">
+                            <div class="setting-card">
+                                <h4>Google Tag Manager</h4>
+                                <div class="form-group">
+                                    <label for="gtm-container-id">GTM Container ID</label>
+                                    <input type="text" id="gtm-container-id" placeholder="GTM-XXXXXXX">
+                                </div>
+                                <div class="form-group">
+                                    <label for="gtm-code">Custom GTM Code</label>
+                                    <textarea id="gtm-code" rows="8" placeholder="Paste your GTM code here"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="enable-gtm" checked>
+                                        <span class="checkmark"></span>
+                                        Enable Google Tag Manager
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="setting-card">
+                                <h4>Google Analytics 4</h4>
+                                <div class="form-group">
+                                    <label for="ga4-measurement-id">GA4 Measurement ID</label>
+                                    <input type="text" id="ga4-measurement-id" placeholder="G-XXXXXXXXXX">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ga4-api-secret">GA4 API Secret</label>
+                                    <input type="text" id="ga4-api-secret" placeholder="Enter API secret">
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="enable-ga4" checked>
+                                        <span class="checkmark"></span>
+                                        Enable Google Analytics 4
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Microsoft Analytics</h2>
+                        <div class="settings-grid">
+                            <div class="setting-card">
+                                <div class="form-group">
+                                    <label for="bing-webmaster-key">Bing Webmaster Tools API Key</label>
+                                    <input type="text" id="bing-webmaster-key" placeholder="Enter Bing API key">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bing-site-verification">Bing Site Verification Code</label>
+                                    <input type="text" id="bing-site-verification" placeholder="Enter verification code">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bing-ads-id">Bing Ads ID</label>
+                                    <input type="text" id="bing-ads-id" placeholder="Enter Bing Ads ID">
+                                </div>
+                            </div>
+
+                            <div class="setting-card">
+                                <h4>Additional Tracking Codes</h4>
+                                <div class="form-group">
+                                    <label for="facebook-pixel">Facebook Pixel ID</label>
+                                    <input type="text" id="facebook-pixel" placeholder="Enter Facebook Pixel ID">
+                                </div>
+                                <div class="form-group">
+                                    <label for="custom-tracking-code">Custom Tracking Code</label>
+                                    <textarea id="custom-tracking-code" rows="6" placeholder="Enter any additional tracking code"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="enable-custom-tracking">
+                                        <span class="checkmark"></span>
+                                        Enable Custom Tracking
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Robots & Crawlers Settings -->
+                <div id="robots-settings" class="settings-content">
+                    <div class="settings-section">
+                        <h2>Robots.txt Configuration</h2>
+                        <div class="setting-card">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enable-custom-robots">
+                                    <span class="checkmark"></span>
+                                    Enable Custom robots.txt
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="custom-robots-txt">Custom robots.txt Content</label>
+                                <textarea id="custom-robots-txt" rows="10" placeholder="Enter robots.txt content"></textarea>
+                                <small>Leave empty to use default robots.txt</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Robots Meta Tags</h2>
+                        <div class="setting-card">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enable-custom-robots-header">
+                                    <span class="checkmark"></span>
+                                    Enable custom robots header tags
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="default-robots-meta">Default Robots Meta Tag</label>
+                                <select id="default-robots-meta">
+                                    <option value="index,follow">index, follow</option>
+                                    <option value="noindex,nofollow">noindex, nofollow</option>
+                                    <option value="index,nofollow">index, nofollow</option>
+                                    <option value="noindex,follow">noindex, follow</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Sitemap Configuration</h2>
+                        <div class="setting-card">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enable-auto-sitemap" checked>
+                                    <span class="checkmark"></span>
+                                    Auto-generate XML sitemap
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="sitemap-url">Sitemap URL</label>
+                                <input type="url" id="sitemap-url" placeholder="https://example.com/sitemap.xml">
+                            </div>
+                            <div class="form-group">
+                                <label for="sitemap-include">Include in Sitemap</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="include-posts" checked>
+                                        <span class="checkmark"></span>
+                                        Posts
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="include-pages" checked>
+                                        <span class="checkmark"></span>
+                                        Pages
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="include-categories">
+                                        <span class="checkmark"></span>
+                                        Categories
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="include-tags">
+                                        <span class="checkmark"></span>
+                                        Tags
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Errors & Redirects Settings -->
+                <div id="errors-settings" class="settings-content">
+                    <div class="settings-section">
+                        <h2>Custom 404 Error Page</h2>
+                        <div class="setting-card">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enable-custom-404" checked>
+                                    <span class="checkmark"></span>
+                                    Enable custom 404 error page
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="custom-404-content">Custom 404 Page Content</label>
+                                <textarea id="custom-404-content" rows="10" placeholder="Enter HTML content for 404 page"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="404-page-title">404 Page Title</label>
+                                <input type="text" id="404-page-title" placeholder="Page Not Found">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>URL Redirects</h2>
+                        <div class="redirects-manager">
+                            <div class="redirects-header">
+                                <h3>Manage Redirects</h3>
+                                <button class="btn btn-primary" onclick="addRedirect()">Add Redirect</button>
+                            </div>
+                            <div class="redirects-list" id="redirects-list">
+                                <!-- Redirects will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Error Monitoring</h2>
+                        <div class="setting-card">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enable-error-logging" checked>
+                                    <span class="checkmark"></span>
+                                    Enable error logging
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="error-notification-email">Error Notification Email</label>
+                                <input type="email" id="error-notification-email" placeholder="admin@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="max-error-logs">Maximum Error Logs to Keep</label>
+                                <input type="number" id="max-error-logs" value="100" min="10" max="1000">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Management -->
+                <div id="footer-settings" class="settings-content">
+                    <div class="settings-section">
+                        <h2>Footer Layout</h2>
+                        <div class="footer-layout-options">
+                            <div class="layout-option" onclick="selectFooterLayout('simple')">
+                                <div class="layout-preview simple-layout">
+                                    <div class="footer-section"></div>
+                                    <div class="footer-section"></div>
+                                    <div class="footer-section"></div>
+                                </div>
+                                <h4>Simple Layout</h4>
+                                <p>Three columns with links and copyright</p>
+                            </div>
+
+                            <div class="layout-option selected" onclick="selectFooterLayout('detailed')">
+                                <div class="layout-preview detailed-layout">
+                                    <div class="footer-section"></div>
+                                    <div class="footer-section"></div>
+                                    <div class="footer-section"></div>
+                                    <div class="footer-section"></div>
+                                </div>
+                                <h4>Detailed Layout</h4>
+                                <p>Four columns with social links and newsletter</p>
+                            </div>
+
+                            <div class="layout-option" onclick="selectFooterLayout('custom')">
+                                <div class="layout-preview custom-layout">
+                                    <div class="footer-section"></div>
+                                    <div class="footer-section"></div>
+                                </div>
+                                <h4>Custom Layout</h4>
+                                <p>Build your own footer structure</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Footer Content</h2>
+                        <div class="footer-editor">
+                            <div class="footer-sections" id="footer-sections">
+                                <!-- Footer sections will be loaded here -->
+                            </div>
+                            <button class="btn btn-secondary" onclick="addFooterSection()">Add Footer Section</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h2>Copyright & Legal</h2>
+                        <div class="settings-grid">
+                            <div class="setting-card">
+                                <div class="form-group">
+                                    <label for="copyright-text">Copyright Text</label>
+                                    <input type="text" id="copyright-text" placeholder="© 2025 Your Website Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="company-name">Company/Organization Name</label>
+                                    <input type="text" id="company-name" placeholder="Your Company Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="legal-links">Legal Page Links</label>
+                                    <textarea id="legal-links" rows="3" placeholder="Privacy Policy|Terms of Service|Contact Us"></textarea>
+                                    <small>Separate multiple links with | (pipe) symbol</small>
+                                </div>
+                            </div>
+
+                            <div class="setting-card">
+                                <h4>Social Media Links</h4>
+                                <div class="form-group">
+                                    <label for="facebook-url">Facebook</label>
+                                    <input type="url" id="facebook-url" placeholder="https://facebook.com/yourpage">
+                                </div>
+                                <div class="form-group">
+                                    <label for="twitter-url">Twitter</label>
+                                    <input type="url" id="twitter-url" placeholder="https://twitter.com/yourpage">
+                                </div>
+                                <div class="form-group">
+                                    <label for="instagram-url">Instagram</label>
+                                    <input type="url" id="instagram-url" placeholder="https://instagram.com/yourpage">
+                                </div>
+                                <div class="form-group">
+                                    <label for="youtube-url">YouTube</label>
+                                    <input type="url" id="youtube-url" placeholder="https://youtube.com/yourchannel">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Redirect Modal -->
+    <div id="add-redirect-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Redirect</h2>
+                <span class="close" onclick="closeAddRedirectModal()">&times;</span>
+            </div>
+            <form id="add-redirect-form">
+                <div class="form-group">
+                    <label for="redirect-from">From URL</label>
+                    <input type="text" id="redirect-from" placeholder="/old-page" required>
+                </div>
+                <div class="form-group">
+                    <label for="redirect-to">To URL</label>
+                    <input type="url" id="redirect-to" placeholder="/new-page" required>
+                </div>
+                <div class="form-group">
+                    <label for="redirect-type">Redirect Type</label>
+                    <select id="redirect-type">
+                        <option value="301">301 Permanent</option>
+                        <option value="302">302 Temporary</option>
+                        <option value="307">307 Temporary Redirect</option>
+                        <option value="410">410 Gone</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddRedirectModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Redirect</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="scripts/admin.js"></script>
+    <script src="scripts/admin-footer.js"></script>
+
+    <!-- Footer Section -->
+    <footer style="background-color: #3D4249; padding: 30px 20px; text-align: center; color: white; font-family: Arial, sans-serif;">
+        <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px;">
+            <a href="https://quravel.blogspot.com" style="color: white; text-decoration: none; font-weight: bold;">Home</a>
+            <a href="mailto:foogyfogg@proton.me" style="color: white; text-decoration: none; font-weight: bold;">Contact Us</a>
+            <a href="https://quravel.blogspot.com/p/sent-your-movie-request.html" style="color: white; text-decoration: none; font-weight: bold;">Sent Request</a>
+        </div>
+
+        <div style="margin: 20px 0;">
+            <img src="https://cdn.imgchest.com/files/d367abae3732.png" alt="Quravel Logo" style="height: 50px; margin-bottom: 10px;">
+            <p style="font-size: 14px; margin: 5px 0;">@ 2025 Quravel</p>
+        </div>
+
+        <div style="font-size: 12px; line-height: 1.5; opacity: 0.8;">
+            <p>This site does not store any files on our server, we only linked to the media which is hosted on 3rd party services.</p>
+            <p>watch free movies, watch free tv shows, free movies online</p>
+        </div>
+    </footer>
+</body>
+</html>

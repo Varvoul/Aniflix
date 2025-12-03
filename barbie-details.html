@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbie - Quravel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Quravel Theme Colors */
+            --bg-page: #0A101C;
+            --bg-surface: #101828;
+            --bg-footer: #4B525F;
+            --bg-hero: linear-gradient(135deg, #0A101C 0%, #1a2332 100%);
+            
+            /* Primary Colors */
+            --primary-500: #A94451;
+            --primary-600: #8B3A43;
+            --primary-700: #6E3035;
+            
+            /* Interactive Colors */
+            --interactive-500: #22D3EE;
+            --interactive-600: #06B6D4;
+            
+            /* Text Colors */
+            --text-primary: #E4E4E7;
+            --text-secondary: #94A3B8;
+            --text-muted: #64748B;
+            
+            /* Semantic Colors */
+            --semantic-success: #22C55E;
+            --semantic-warning: #F59E0B;
+            --semantic-error: #EF4444;
+            --semantic-info: #3B82F6;
+            
+            /* Border Colors */
+            --border-subtle: #334155;
+            --border-focus: #22D3EE;
+            
+            /* Legacy Variables for Compatibility */
+            --primary-color: var(--interactive-500);
+            --primary-hover: var(--interactive-600);
+            --bg-dark: var(--bg-page);
+            --bg-secondary: var(--bg-surface);
+            --bg-card: #1a2332;
+            --border-color: var(--border-subtle);
+            --success: var(--semantic-success);
+            --error: var(--semantic-error);
+            --warning: var(--semantic-warning);
+            
+            /* Typography */
+            --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-size-xs: 12px;
+            --font-size-sm: 14px;
+            --font-size-base: 16px;
+            --font-size-lg: 18px;
+            --font-size-xl: 20px;
+            --font-size-2xl: 24px;
+            --font-size-3xl: 32px;
+            --font-size-4xl: 42px;
+            
+            /* Spacing Scale */
+            --space-xs: 8px;
+            --space-sm: 16px;
+            --space-md: 24px;
+            --space-lg: 48px;
+            --space-xl: 64px;
+            --space-xxl: 96px;
+            
+            /* Border Radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-full: 9999px;
+            
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.25);
+            --shadow-glow: 0 0 24px rgba(34, 211, 238, 0.2);
+            --shadow-glow-primary: 0 0 16px rgba(169, 68, 81, 0.4);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-family);
+            background: var(--bg-page);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-surface);
+            padding: var(--space-md) 0;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo {
+            font-size: var(--font-size-2xl);
+            font-weight: 800;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: var(--space-lg);
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-secondary) 100%);
+            padding: var(--space-3xl) 0;
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: var(--space-3xl);
+            align-items: center;
+        }
+        
+        /* Poster */
+        .poster-container {
+            position: relative;
+        }
+        
+        .poster {
+            width: 100%;
+            max-width: 400px;
+            height: 600px;
+            border-radius: var(--radius-lg);
+            object-fit: cover;
+            box-shadow: var(--shadow-xl);
+            transition: transform 0.3s ease;
+        }
+        
+        .poster:hover {
+            transform: scale(1.02);
+        }
+        
+        /* Content Section */
+        .content-section {
+            padding: var(--space-lg) 0;
+        }
+        
+        .post-title {
+            font-size: var(--font-size-4xl);
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+            line-height: 1.2;
+            color: var(--text-primary);
+        }
+        
+        /* Badges */
+        .badges {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .badge {
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+        
+        .badge.imdb {
+            background: #F3CE02;
+            color: #000;
+            font-weight: 700;
+        }
+        
+        .badge.hd {
+            background: var(--success);
+            color: #fff;
+        }
+        
+        .badge.rating {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        
+        .badge.quality {
+            background: var(--primary-color);
+            color: #fff;
+        }
+        
+        .badge.year {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-2xl);
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: 14px 28px;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-family);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: #2C5282;
+            color: white !important;
+        }
+        
+        .btn-primary:hover {
+            background: #2A4A6B;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(44, 82, 130, 0.4);
+        }
+        
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-card);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+        
+        /* Add to List Dropdown */
+        .add-to-list-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            min-width: 220px;
+            box-shadow: var(--shadow-xl);
+            z-index: 9999;
+            display: none;
+            overflow: hidden;
+        }
+        
+        .dropdown-content.active {
+            display: block;
+            animation: dropdownSlide 200ms ease-out;
+        }
+        
+        @keyframes dropdownSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .dropdown-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: var(--font-size-sm);
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown-item:hover {
+            background: var(--bg-secondary);
+        }
+        
+        .dropdown-item.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .dropdown-item.remove {
+            color: var(--error);
+        }
+        
+        .dropdown-item.remove:hover {
+            background: rgba(244, 63, 94, 0.1);
+        }
+        
+        .dropdown-item svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+        }
+        
+        /* Description */
+        .description {
+            font-size: var(--font-size-lg);
+            line-height: 1.8;
+            margin-bottom: var(--space-xl);
+            color: var(--text-secondary);
+        }
+        
+        .description .more-link {
+            color: var(--primary-color);
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .description .more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Watch Info */
+        .watch-info {
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+            margin-bottom: var(--space-xl);
+            padding: var(--space-lg);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .watch-info strong {
+            color: var(--text-primary);
+        }
+        
+        /* Details Grid */
+        .details-section {
+            background: var(--bg-secondary);
+            padding: var(--space-2xl) 0;
+            margin-top: var(--space-3xl);
+        }
+        
+        .details-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-xl);
+        }
+        
+        .detail-item {
+            margin-bottom: var(--space-lg);
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--space-xs);
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .detail-value {
+            font-size: var(--font-size-base);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .detail-value a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .detail-value a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Genre Tags */
+        .genre-tags {
+            display: flex;
+            gap: var(--space-xs);
+            flex-wrap: wrap;
+        }
+        
+        .genre-tag {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-xs);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .genre-tag:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Share Section */
+        .share-section {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-lg);
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            margin: var(--space-xl) 0;
+            border: 1px solid var(--border-color);
+        }
+        
+        .share-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--primary-color);
+        }
+        
+        .share-content {
+            flex: 1;
+        }
+        
+        .share-title {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: var(--font-size-base);
+            margin-bottom: 2px;
+        }
+        
+        .share-subtitle {
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+        }
+        
+        /* Recommendations Section */
+        .recommendations-section {
+            padding: var(--space-3xl) 0;
+            background: var(--bg-page);
+        }
+        
+        .recommendations-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+        
+        .recommendations-title {
+            font-size: var(--font-size-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-xl);
+            text-align: center;
+        }
+        
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-xl);
+        }
+        
+        .recommendation-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+        
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+        
+        .recommendation-image {
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .recommendation-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .recommendation-card:hover .recommendation-image img {
+            transform: scale(1.05);
+        }
+        
+        .recommendation-content {
+            padding: var(--space-md);
+        }
+        
+        .recommendation-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-xs);
+            line-height: 1.3;
+        }
+        
+        .recommendation-info {
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bg-card);
+            border: 1px solid var(--primary-color);
+            border-radius: var(--radius-md);
+            padding: var(--space-md) var(--space-lg);
+            box-shadow: var(--shadow-xl);
+            z-index: 2000;
+            animation: slideIn 300ms ease-out;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            max-width: 400px;
+            color: var(--text-primary);
+        }
+        
+        .toast.success {
+            border-color: var(--success);
+        }
+        
+        .toast svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--primary-color);
+            fill: none;
+        }
+        
+        .toast.success svg {
+            stroke: var(--success);
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: var(--space-xl);
+                text-align: center;
+            }
+            
+            .poster {
+                max-width: 300px;
+                height: 450px;
+                margin: 0 auto;
+            }
+            
+            .post-title {
+                font-size: var(--font-size-3xl);
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .badges {
+                justify-content: center;
+            }
+            
+            /* Logo adjustments for mobile */
+            .logo img {
+                height: 40px;
+                max-width: 180px;
+            }
+            
+            /* Hide navigation on mobile */
+            .nav-links {
+                display: none;
+            }
+            
+            .header-content {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header-content {
+                padding: 0 var(--space-md);
+            }
+            
+            .hero-content {
+                padding: 0 var(--space-md);
+            }
+            
+            .details-container {
+                padding: 0 var(--space-md);
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">
+                <img src="images/logo.png" alt="Quravel Logo">
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#movies">Movies</a></li>
+                    <li><a href="#tv-shows">TV Shows</a></li>
+                    <li><a href="#my-list">My List</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <!-- Poster -->
+            <div class="poster-container">
+                <img src="https://image.tmdb.org/t/p/w1280/d9Hsk6fuvlvY9M8x54niw6z3K8w.jpg" alt="Barbie" class="poster">
+            </div>
+
+            <!-- Content -->
+            <div class="content-section">
+                <h1 class="post-title">Barbie</h1>
+                
+                <!-- Badges -->
+                <div class="badges">
+                    <span class="badge imdb">📊 <span>7.0</span></span>
+                    <span class="badge hd">4K</span>
+                    <span class="badge rating">PG-13</span>
+                    <span class="badge quality">114m</span>
+                    <span class="badge year">2025</span>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <a href="#" class="btn btn-primary" id="watchNowBtn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        Watch Now
+                    </a>
+                    <div class="add-to-list-container">
+                        <button class="btn btn-secondary" id="addToListBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            <span id="listButtonText">Add to List</span>
+                        </button>
+                        <div class="dropdown-content" id="listDropdown">
+                            <div class="dropdown-item" onclick="setListStatus('planning')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="9" y1="9" x2="15" y2="9"></line>
+                                    <line x1="9" y1="15" x2="15" y2="15"></line>
+                                </svg>
+                                Planning to watch
+                            </div>
+                            <div class="dropdown-item" onclick="setListStatus('watching')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                Watching
+                            </div>
+                            <div class="dropdown-item" onclick="setListStatus('completed')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                </svg>
+                                Completed
+                            </div>
+                            <div class="dropdown-item" onclick="setListStatus('rewatching')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="23 4 23 10 17 10"></polyline>
+                                    <polyline points="1 20 1 14 7 14"></polyline>
+                                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                                </svg>
+                                Rewatching
+                            </div>
+                            <div class="dropdown-item" onclick="setListStatus('dropped')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                                </svg>
+                                Dropped
+                            </div>
+                            <div class="dropdown-item remove" onclick="setListStatus('remove')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                                Remove from list
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="description">
+                    Barbie and Ken are having the time of their lives in the colorful and seemingly perfect world of Barbie Land. However, when they get a chance to go to the real world, they soon discover the joys and perils of living among humans. <span class="more-link">+ More</span>
+                </div>
+
+                <!-- Watch Info -->
+                <div class="watch-info">
+                    StreamFlix is the best site to watch <strong>Barbie</strong> online in 4K quality. You can also find <strong>Margot Robbie</strong> movies and <strong>Warner Bros</strong> films on our platform.
+                </div>
+
+                <!-- Share Section -->
+                <div class="share-section">
+                    <svg class="share-icon" viewBox="0 0 24 24">
+                        <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+                    </svg>
+                    <div class="share-content">
+                        <div class="share-title">Share This Movie</div>
+                        <div class="share-subtitle">Share with your friends</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- You May Also Like Section -->
+    <section class="recommendations-section">
+        <div class="recommendations-container">
+            <h2 class="recommendations-title">You may also like</h2>
+            <div class="recommendations-grid">
+                <div class="recommendation-card" data-content="barbie">
+                    <div class="recommendation-image">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='300' viewBox='0 0 200 300'%3E%3Crect width='200' height='300' fill='%231a2332'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='16' fill='%23E4E4E7' text-anchor='middle' dy='.3em'%3EBarbie%3C/text%3E%3C/svg%3E" alt="Barbie">
+                    </div>
+                    <div class="recommendation-content">
+                        <h3 class="recommendation-title">Barbie</h3>
+                        <p class="recommendation-info">Comedy • 114m</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card" data-content="john-wick">
+                    <div class="recommendation-image">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='300' viewBox='0 0 200 300'%3E%3Crect width='200' height='300' fill='%231a2332'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='12' fill='%23E4E4E7' text-anchor='middle' dy='.3em'%3EJohn Wick%3C/text%3E%3C/svg%3E" alt="John Wick">
+                    </div>
+                    <div class="recommendation-content">
+                        <h3 class="recommendation-title">John Wick: Chapter 4</h3>
+                        <p class="recommendation-info">Action • 169m</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card" data-content="dune">
+                    <div class="recommendation-image">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='300' viewBox='0 0 200 300'%3E%3Crect width='200' height='300' fill='%231a2332'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='16' fill='%23E4E4E7' text-anchor='middle' dy='.3em'%3EDune%3C/text%3E%3C/svg%3E" alt="Dune">
+                    </div>
+                    <div class="recommendation-content">
+                        <h3 class="recommendation-title">Dune: Part Two</h3>
+                        <p class="recommendation-info">Sci-Fi • 166m</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card" data-content="spider-verse">
+                    <div class="recommendation-image">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='300' viewBox='0 0 200 300'%3E%3Crect width='200' height='300' fill='%231a2332'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='12' fill='%23E4E4E7' text-anchor='middle' dy='.3em'%3ESpider-Verse%3C/text%3E%3C/svg%3E" alt="Spider-Verse">
+                    </div>
+                    <div class="recommendation-content">
+                        <h3 class="recommendation-title">Spider-Verse</h3>
+                        <p class="recommendation-info">Animation • 140m</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card" data-content="evil-dead">
+                    <div class="recommendation-image">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='300' viewBox='0 0 200 300'%3E%3Crect width='200' height='300' fill='%231a2332'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='14' fill='%23E4E4E7' text-anchor='middle' dy='.3em'%3EEvil Dead%3C/text%3E%3C/svg%3E" alt="Evil Dead Rise">
+                    </div>
+                    <div class="recommendation-content">
+                        <h3 class="recommendation-title">Evil Dead Rise</h3>
+                        <p class="recommendation-info">Horror • 96m</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card" data-content="mario">
+                    <div class="recommendation-image">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='300' viewBox='0 0 200 300'%3E%3Crect width='200' height='300' fill='%231a2332'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='12' fill='%23E4E4E7' text-anchor='middle' dy='.3em'%3ESuper Mario%3C/text%3E%3C/svg%3E" alt="Super Mario Bros">
+                    </div>
+                    <div class="recommendation-content">
+                        <h3 class="recommendation-title">Super Mario Bros</h3>
+                        <p class="recommendation-info">Family • 92m</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card" data-content="fast-x">
+                    <div class="recommendation-image">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='300' viewBox='0 0 200 300'%3E%3Crect width='200' height='300' fill='%231a2332'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='16' fill='%23E4E4E7' text-anchor='middle' dy='.3em'%3EFast X%3C/text%3E%3C/svg%3E" alt="Fast X">
+                    </div>
+                    <div class="recommendation-content">
+                        <h3 class="recommendation-title">Fast X</h3>
+                        <p class="recommendation-info">Action • 141m</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card" data-content="guardians">
+                    <div class="recommendation-image">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='300' viewBox='0 0 200 300'%3E%3Crect width='200' height='300' fill='%231a2332'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='14' fill='%23E4E4E7' text-anchor='middle' dy='.3em'%3EGuardians 3%3C/text%3E%3C/svg%3E" alt="Guardians of the Galaxy">
+                    </div>
+                    <div class="recommendation-content">
+                        <h3 class="recommendation-title">Guardians 3</h3>
+                        <p class="recommendation-info">Superhero • 150m</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card" data-content="mission-impossible">
+                    <div class="recommendation-image">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='300' viewBox='0 0 200 300'%3E%3Crect width='200' height='300' fill='%231a2332'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='12' fill='%23E4E4E7' text-anchor='middle' dy='.3em'%3EMission Impossible%3C/text%3E%3C/svg%3E" alt="Mission Impossible">
+                    </div>
+                    <div class="recommendation-content">
+                        <h3 class="recommendation-title">Mission Impossible</h3>
+                        <p class="recommendation-info">Thriller • 163m</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Details Section -->
+    <section class="details-section">
+        <div class="details-container">
+            <div class="details-grid">
+                <div>
+                    <div class="detail-item">
+                        <div class="detail-label">Title</div>
+                        <div class="detail-value">Barbie</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Director</div>
+                        <div class="detail-value">Greta Gerwig</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Writers</div>
+                        <div class="detail-value">Greta Gerwig, Noah Baumbach</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Release Date</div>
+                        <div class="detail-value">July 21, 2023</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Runtime</div>
+                        <div class="detail-value">114 minutes</div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="detail-item">
+                        <div class="detail-label">IMDb Rating</div>
+                        <div class="detail-value">7.0/10</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Status</div>
+                        <div class="detail-value">Released</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">MPAA Rating</div>
+                        <div class="detail-value">PG-13</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Production Company</div>
+                        <div class="detail-value">Warner Bros. Pictures</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Genres</div>
+                        <div class="genre-tags">
+                            <a href="#" class="genre-tag">Adventure</a>
+                            <a href="#" class="genre-tag">Comedy</a>
+                            <a href="#" class="genre-tag">Fantasy</a>
+                            <a href="#" class="genre-tag">Family</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Watchlist management
+        let currentMovie = 'barbie';
+        let movieList = JSON.parse(localStorage.getItem('sflix_watchlist')) || {};
+        
+        // Toggle dropdown
+        document.getElementById('addToListBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('listDropdown');
+            dropdown.classList.toggle('active');
+            updateDropdownActiveState();
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('listDropdown');
+            const container = document.querySelector('.add-to-list-container');
+            if (!container.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+        
+        // Close dropdown on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('listDropdown').classList.remove('active');
+            }
+        });
+        
+        function setListStatus(status) {
+            const statusMap = {
+                'planning': { text: 'Planning to watch', icon: 'planning' },
+                'watching': { text: 'Watching', icon: 'watching' },
+                'completed': { text: 'Completed', icon: 'completed' },
+                'rewatching': { text: 'Rewatching', icon: 'rewatching' },
+                'dropped': { text: 'Dropped', icon: 'dropped' }
+            };
+            
+            if (status === 'remove') {
+                delete movieList[currentMovie];
+                localStorage.setItem('sflix_watchlist', JSON.stringify(movieList));
+                showToast('Removed from your list', 'success');
+            } else {
+                movieList[currentMovie] = status;
+                localStorage.setItem('sflix_watchlist', JSON.stringify(movieList));
+                showToast(`Added to ${statusMap[status].text}`, 'success');
+            }
+            
+            updateListButton();
+            document.getElementById('listDropdown').classList.remove('active');
+        }
+        
+        function updateListButton() {
+            const buttonText = document.getElementById('listButtonText');
+            
+            if (movieList[currentMovie]) {
+                const statusMap = {
+                    'planning': 'Planning to watch',
+                    'watching': 'Watching',
+                    'completed': 'Completed',
+                    'rewatching': 'Rewatching',
+                    'dropped': 'Dropped'
+                };
+                buttonText.textContent = statusMap[movieList[currentMovie]];
+            } else {
+                buttonText.textContent = 'Add to List';
+            }
+        }
+        
+        function updateDropdownActiveState() {
+            const items = document.querySelectorAll('.dropdown-item:not(.remove)');
+            items.forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            if (movieList[currentMovie]) {
+                const statusMap = {
+                    'planning': 0,
+                    'watching': 1,
+                    'completed': 2,
+                    'rewatching': 3,
+                    'dropped': 4
+                };
+                const index = statusMap[movieList[currentMovie]];
+                if (index !== undefined) {
+                    items[index].classList.add('active');
+                }
+            }
+        }
+        
+        function showToast(message, type = 'info') {
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+            
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+        
+        // Watch Now button functionality
+        document.getElementById('watchNowBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+            
+            showToast('Playing: Barbie', 'success');
+        });
+        
+        // Recommendations functionality
+        document.querySelectorAll('.recommendation-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const contentId = this.getAttribute('data-content');
+                const title = this.querySelector('.recommendation-title').textContent;
+                showToast(`Loading: ${title}`, 'info');
+                
+                // Here you would typically navigate to the specific content page
+                setTimeout(() => {
+                    // window.location.href = `/details/${contentId}`;
+                }, 1000);
+            });
+        });
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateListButton();
+        });
+    </script>
+
+    <!-- Footer Section -->
+    <footer style="background-color: #3D4249; padding: 30px 20px; text-align: center; color: white; font-family: Arial, sans-serif;">
+        <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px;">
+            <a href="https://quravel.blogspot.com" style="color: white; text-decoration: none; font-weight: bold;">Home</a>
+            <a href="mailto:foogyfogg@proton.me" style="color: white; text-decoration: none; font-weight: bold;">Contact Us</a>
+            <a href="https://quravel.blogspot.com/p/sent-your-movie-request.html" style="color: white; text-decoration: none; font-weight: bold;">Sent Request</a>
+        </div>
+
+        <div style="margin: 20px 0;">
+            <img src="https://cdn.imgchest.com/files/d367abae3732.png" alt="Quravel Logo" style="height: 50px; margin-bottom: 10px;">
+            <p style="font-size: 14px; margin: 5px 0;">@ 2025 Quravel</p>
+        </div>
+
+        <div style="font-size: 12px; line-height: 1.5; opacity: 0.8;">
+            <p>This site does not store any files on our server, we only linked to the media which is hosted on 3rd party services.</p>
+            <p>watch free movies, watch free tv shows, free movies online</p>
+        </div>
+    </footer>
+</body>
+</html>

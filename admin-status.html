@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Status & Analytics - Quravel Admin</title>
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="styles/main.css">
+    
+    <!-- Chart.js for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    
+    <!-- Date Range Picker -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+    <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <header class="admin-header">
+            <div class="admin-nav">
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="Quravel Logo">
+                </a>
+                <nav class="admin-nav-links">
+                    <a href="admin.html" class="admin-nav-link">Dashboard</a>
+                    <a href="admin-status.html" class="admin-nav-link active">Status</a>
+                    <a href="admin-header.html" class="admin-nav-link">Header and Menu</a>
+                    <a href="admin-homepage.html" class="admin-nav-link">Homepage</a>
+                    <a href="admin-slideshow.html" class="admin-nav-link">Slideshow</a>
+                    <a href="admin-posts.html" class="admin-nav-link">Posts</a>
+                    <a href="admin-streaming.html" class="admin-nav-link">Streaming Page</a>
+                    <a href="admin-footer.html" class="admin-nav-link">Footer and Settings</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Admin Main Content -->
+        <main class="admin-main">
+            <div class="admin-content">
+                <div class="admin-header-section">
+                    <h1>Website Status & Analytics</h1>
+                    <div class="admin-actions">
+                        <div class="date-range-picker">
+                            <input type="text" id="dateRange" class="form-control">
+                        </div>
+                        <button class="btn btn-secondary" onclick="exportAnalytics()">Export Data</button>
+                        <button class="btn btn-secondary" onclick="refreshAnalytics()">Refresh Data</button>
+                        <button class="btn btn-primary" onclick="generateReport()">Generate Report</button>
+                    </div>
+                </div>
+
+                <!-- Key Metrics Overview -->
+                <div class="metrics-overview">
+                    <div class="metric-card">
+                        <div class="metric-icon">👥</div>
+                        <div class="metric-content">
+                            <h3 id="total-visitors">0</h3>
+                            <p>Total Visitors</p>
+                            <span class="metric-trend" id="visitors-trend">+0%</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">📈</div>
+                        <div class="metric-content">
+                            <h3 id="page-views">0</h3>
+                            <p>Page Views</p>
+                            <span class="metric-trend" id="views-trend">+0%</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">⏱️</div>
+                        <div class="metric-content">
+                            <h3 id="avg-session">0m</h3>
+                            <p>Avg Session Duration</p>
+                            <span class="metric-trend" id="session-trend">+0%</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">📊</div>
+                        <div class="metric-content">
+                            <h3 id="bounce-rate">0%</h3>
+                            <p>Bounce Rate</p>
+                            <span class="metric-trend" id="bounce-trend">-0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Time Period Selection -->
+                <div class="time-period-section">
+                    <h2>Analytics Overview</h2>
+                    <div class="period-buttons">
+                        <button class="period-btn active" onclick="selectPeriod('today')">Today</button>
+                        <button class="period-btn" onclick="selectPeriod('7days')">7 Days</button>
+                        <button class="period-btn" onclick="selectPeriod('30days')">30 Days</button>
+                        <button class="period-btn" onclick="selectPeriod('90days')">3 Months</button>
+                        <button class="period-btn" onclick="selectPeriod('180days')">6 Months</button>
+                        <button class="period-btn" onclick="selectPeriod('1year')">1 Year</button>
+                        <button class="period-btn" onclick="selectPeriod('3years')">3 Years</button>
+                    </div>
+                </div>
+
+                <!-- Traffic Charts Section -->
+                <div class="charts-section">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>Website Traffic</h3>
+                            <div class="chart-controls">
+                                <select id="trafficChartType" onchange="updateTrafficChart()">
+                                    <option value="visitors">Visitors</option>
+                                    <option value="pageviews">Page Views</option>
+                                    <option value="sessions">Sessions</option>
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="trafficChart"></canvas>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>User Behavior</h3>
+                            <div class="chart-controls">
+                                <select id="behaviorChartType" onchange="updateBehaviorChart()">
+                                    <option value="device">Device Types</option>
+                                    <option value="browser">Browsers</option>
+                                    <option value="country">Top Countries</option>
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="behaviorChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Content Performance Section -->
+                <div class="content-performance-section">
+                    <h2>Content Performance</h2>
+                    <div class="performance-tabs">
+                        <button class="tab-btn active" onclick="switchPerformanceTab('shows')">Most Watched Shows</button>
+                        <button class="tab-btn" onclick="switchPerformanceTab('least')">Least Watched</button>
+                        <button class="tab-btn" onclick="switchPerformanceTab('new-users')">New vs Returning Users</button>
+                        <button class="tab-btn" onclick="switchPerformanceTab('behavior')">User Behavior</button>
+                    </div>
+
+                    <div id="shows-performance" class="performance-content active">
+                        <div class="performance-grid">
+                            <div class="performance-chart">
+                                <h4>Top 10 Most Watched Content</h4>
+                                <canvas id="topContentChart"></canvas>
+                            </div>
+                            <div class="performance-list">
+                                <h4>Content Ranking</h4>
+                                <div id="topContentList" class="content-list">
+                                    <!-- Top content will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="least-performance" class="performance-content">
+                        <div class="performance-chart">
+                            <h4>Least Watched Content</h4>
+                            <canvas id="leastContentChart"></canvas>
+                        </div>
+                        <div class="performance-list">
+                            <h4>Low Performance Content</h4>
+                            <div id="leastContentList" class="content-list">
+                                <!-- Least content will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="new-users-performance" class="performance-content">
+                        <div class="user-type-grid">
+                            <div class="user-stat-card">
+                                <h4>New Users</h4>
+                                <div class="stat-number" id="new-users-count">0</div>
+                                <div class="stat-percentage" id="new-users-percentage">0%</div>
+                            </div>
+                            <div class="user-stat-card">
+                                <h4>Returning Users</h4>
+                                <div class="stat-number" id="returning-users-count">0</div>
+                                <div class="stat-percentage" id="returning-users-percentage">0%</div>
+                            </div>
+                            <div class="user-stat-card">
+                                <h4>User Retention Rate</h4>
+                                <div class="stat-number" id="retention-rate">0%</div>
+                                <div class="stat-change" id="retention-change">+0%</div>
+                            </div>
+                        </div>
+                        <div class="user-behavior-chart">
+                            <canvas id="userTypeChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="behavior-performance" class="performance-content">
+                        <div class="behavior-metrics">
+                            <div class="behavior-metric">
+                                <h4>Average Session Duration</h4>
+                                <div class="metric-value" id="avg-session-duration">0m 0s</div>
+                                <div class="metric-change" id="session-change">+0%</div>
+                            </div>
+                            <div class="behavior-metric">
+                                <h4>Pages per Session</h4>
+                                <div class="metric-value" id="pages-per-session">0</div>
+                                <div class="metric-change" id="pages-change">+0%</div>
+                            </div>
+                            <div class="behavior-metric">
+                                <h4>Return Frequency</h4>
+                                <div class="metric-value" id="return-frequency">0 days</div>
+                                <div class="metric-change" id="frequency-change">+0%</div>
+                            </div>
+                        </div>
+                        <div class="behavior-chart">
+                            <canvas id="behaviorTrendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real-time Analytics -->
+                <div class="realtime-section">
+                    <h2>Real-time Analytics</h2>
+                    <div class="realtime-stats">
+                        <div class="realtime-stat">
+                            <div class="stat-icon">🟢</div>
+                            <div class="stat-info">
+                                <h4 id="active-users">0</h4>
+                                <p>Active Users Now</p>
+                            </div>
+                        </div>
+                        <div class="realtime-stat">
+                            <div class="stat-icon">👁️</div>
+                            <div class="stat-info">
+                                <h4 id="current-page-views">0</h4>
+                                <p>Current Page Views</p>
+                            </div>
+                        </div>
+                        <div class="realtime-stat">
+                            <div class="stat-icon">🔄</div>
+                            <div class="stat-info">
+                                <h4 id="bounce-count">0</h4>
+                                <p>Quick Bounces</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Status -->
+                <div class="system-status-section">
+                    <h2>System Status</h2>
+                    <div class="status-grid">
+                        <div class="status-card">
+                            <div class="status-indicator online"></div>
+                            <div class="status-info">
+                                <h4>Website Status</h4>
+                                <p>Online & Running</p>
+                                <span class="status-uptime">99.9% Uptime</span>
+                            </div>
+                        </div>
+                        <div class="status-card">
+                            <div class="status-indicator online"></div>
+                            <div class="status-info">
+                                <h4>Database</h4>
+                                <p>Connected & Responding</p>
+                                <span class="response-time">45ms Response</span>
+                            </div>
+                        </div>
+                        <div class="status-card">
+                            <div class="status-indicator online"></div>
+                            <div class="status-info">
+                                <h4>CDN</h4>
+                                <p>All Regions Serving</p>
+                                <span class="coverage">Global Coverage</span>
+                            </div>
+                        </div>
+                        <div class="status-card">
+                            <div class="status-indicator warning"></div>
+                            <div class="status-info">
+                                <h4>Storage Usage</h4>
+                                <p>75% Used</p>
+                                <span class="storage-amount">15GB / 20GB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="scripts/admin.js"></script>
+    <script src="scripts/admin-status.js"></script>
+
+    <!-- Footer Section -->
+    <footer style="background-color: #3D4249; padding: 30px 20px; text-align: center; color: white; font-family: Arial, sans-serif;">
+        <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px;">
+            <a href="https://quravel.blogspot.com" style="color: white; text-decoration: none; font-weight: bold;">Home</a>
+            <a href="mailto:foogyfogg@proton.me" style="color: white; text-decoration: none; font-weight: bold;">Contact Us</a>
+            <a href="https://quravel.blogspot.com/p/sent-your-movie-request.html" style="color: white; text-decoration: none; font-weight: bold;">Sent Request</a>
+        </div>
+
+        <div style="margin: 20px 0;">
+            <img src="https://cdn.imgchest.com/files/d367abae3732.png" alt="Quravel Logo" style="height: 50px; margin-bottom: 10px;">
+            <p style="font-size: 14px; margin: 5px 0;">@ 2025 Quravel</p>
+        </div>
+
+        <div style="font-size: 12px; line-height: 1.5; opacity: 0.8;">
+            <p>This site does not store any files on our server, we only linked to the media which is hosted on 3rd party services.</p>
+            <p>watch free movies, watch free tv shows, free movies online</p>
+        </div>
+    </footer>
+</body>
+</html>

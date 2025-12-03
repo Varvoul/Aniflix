@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quravel - Anime Streaming Platform</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0A101C;
+            color: #ffffff;
+            line-height: 1.6;
+            padding-top: 70px;
+        }
+
+        /* Midnight Violet Shift Color */
+        :root {
+            --midnight-violet: #202024;
+            --midnight-violet-light: #2d2d33;
+            --midnight-violet-dark: #17171a;
+            --primary-accent: #4ecdc4;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d1b69 100%);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+        }
+        
+        .search-btn {
+            background: var(--midnight-violet-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--primary-accent);
+        }
+        
+        .search-btn:hover {
+            background: var(--primary-accent);
+            color: #000;
+            transform: translateY(-2px);
+        }
+        
+        .search-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+
+
+        /* Season Selector */
+        .season-selector {
+            margin-bottom: 20px;
+            text-align: center;
+            display: none; /* Hidden by default */
+        }
+
+        .season-selector.visible {
+            display: block;
+        }
+
+        .season-selector-title {
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: var(--primary-accent);
+            font-size: 18px;
+        }
+
+        .season-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .season-btn {
+            padding: 8px 16px;
+            background: var(--midnight-violet);
+            color: white;
+            border: 1px solid #333;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .season-btn:hover {
+            background: var(--midnight-violet-light);
+            transform: translateY(-2px);
+        }
+
+        .season-btn.active {
+            background: var(--midnight-violet-light);
+            color: var(--primary-accent);
+            font-weight: 600;
+            border-color: var(--primary-accent);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Video Player Section - Centered */
+        .video-section {
+            background: #1a1a1a;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (min-width: 768px) {
+            .video-section {
+                flex-direction: row;
+                min-height: 500px;
+            }
+        }
+
+        /* Centered video container */
+        .video-container {
+            position: relative;
+            width: 100%;
+            background: #000;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+
+        #main-video {
+            width: 100%;
+            height: 100%;
+            max-height: 70vh;
+            background: #000;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Centered video controls */
+        .video-controls {
+            padding: 20px;
+            background: #1a1a1a;
+            flex: 0 0 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .video-info {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .video-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            color: #cccccc;
+            font-size: 14px;
+            flex-wrap: wrap;
+        }
+
+        /* Season Selector */
+        .season-selector {
+            margin-bottom: 20px;
+            text-align: center;
+            display: none; /* Hidden by default */
+        }
+
+        .season-selector.visible {
+            display: block;
+        }
+
+        .season-selector-title {
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: var(--primary-accent);
+            font-size: 18px;
+        }
+
+        .season-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .season-btn {
+            padding: 8px 16px;
+            background: var(--midnight-violet);
+            color: white;
+            border: 1px solid #333;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .season-btn:hover {
+            background: var(--midnight-violet-light);
+            transform: translateY(-2px);
+        }
+
+        .season-btn.active {
+            background: var(--midnight-violet-light);
+            color: var(--primary-accent);
+            font-weight: 600;
+            border-color: var(--primary-accent);
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Updated control button colors to Midnight Violet */
+        .control-btn {
+            padding: 12px 24px;
+            background: var(--midnight-violet);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            border: 1px solid #333;
+        }
+
+        .control-btn:hover {
+            background: var(--midnight-violet-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(32, 32, 36, 0.4);
+        }
+
+        .control-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Add to List Container */
+        .add-to-list-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .add-to-list-btn {
+            padding: 12px 24px;
+            background: var(--midnight-violet);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            border: 1px solid #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .add-to-list-btn:hover {
+            background: var(--midnight-violet-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(32, 32, 36, 0.4);
+        }
+
+        .add-to-list-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        /* Dropdown Styles */
+        .dropdown-content {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            background: var(--midnight-violet-dark);
+            border: 1px solid #333;
+            border-radius: 10px;
+            min-width: 220px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 9999;
+            display: none;
+            overflow: hidden;
+        }
+
+        .dropdown-content.active {
+            display: block;
+            animation: dropdownSlide 200ms ease-out;
+        }
+
+        @keyframes dropdownSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: #ffffff;
+            border-bottom: 1px solid #333;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: var(--midnight-violet-light);
+        }
+
+        .dropdown-item.active {
+            background: var(--midnight-violet);
+            color: var(--primary-accent);
+        }
+
+        .dropdown-item.remove {
+            color: #ff6b6b;
+        }
+
+        .dropdown-item.remove:hover {
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        .dropdown-item svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        .server-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .server-type {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+        }
+
+        .server-type-title {
+            font-weight: bold;
+            min-width: 40px;
+            color: var(--primary-accent);
+            text-align: right;
+        }
+
+        .server-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .server-btn {
+            padding: 10px 18px;
+            background: var(--midnight-violet);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            border: 1px solid #333;
+        }
+
+        .server-btn.active {
+            background: var(--midnight-violet-light);
+            color: var(--primary-accent);
+            font-weight: 600;
+            border-color: var(--primary-accent);
+        }
+
+        .server-btn:hover {
+            background: var(--midnight-violet-light);
+            transform: translateY(-2px);
+        }
+
+        .server-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .episode-selector {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .episode-selector-title {
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: var(--primary-accent);
+            font-size: 18px;
+        }
+
+        .episode-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 10px;
+            background: #0f0f0f;
+            margin: 0 auto;
+            max-width: 500px;
+        }
+
+        .episode-item {
+            padding: 10px;
+            margin-bottom: 5px;
+            background: var(--midnight-violet);
+            border: 1px solid #333;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .episode-item:hover {
+            background: var(--midnight-violet-light);
+            transform: translateX(5px);
+        }
+
+        .episode-item.active {
+            background: var(--midnight-violet-light);
+            color: var(--primary-accent);
+            font-weight: 600;
+            border-color: var(--primary-accent);
+        }
+
+        .current-episode-message {
+            text-align: center;
+            padding: 10px;
+            background: rgba(78, 205, 196, 0.1);
+            border-radius: 10px;
+            margin-top: 10px;
+            font-style: italic;
+            color: var(--primary-accent);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+        }
+
+        /* Video error message */
+        .video-error {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: #ff6b6b;
+            border: 2px solid #ff6b6b;
+            display: none;
+            z-index: 100;
+            max-width: 80%;
+        }
+
+        .video-error.show {
+            display: block;
+        }
+
+        .video-error h3 {
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+
+        .video-error p {
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .retry-btn {
+            padding: 10px 20px;
+            background: var(--midnight-violet);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid #333;
+        }
+
+        .retry-btn:hover {
+            background: var(--midnight-violet-light);
+        }
+
+        /* Anime Sections */
+        .section {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .view-all {
+            color: var(--primary-accent);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .anime-card {
+            background: var(--midnight-violet);
+            border: 1px solid #333;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .anime-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            border-color: var(--primary-accent);
+        }
+
+        .anime-poster {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .anime-info {
+            padding: 15px;
+        }
+
+        .anime-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        .anime-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #cccccc;
+            font-size: 12px;
+        }
+
+        .episode-badge {
+            background: var(--primary-accent);
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--midnight-violet);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 10000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            font-weight: 600;
+            max-width: 300px;
+            border: 1px solid #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-color: var(--primary-accent);
+        }
+
+        .toast svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        /* Video loading overlay */
+        .video-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--primary-accent);
+            font-size: 18px;
+            z-index: 100;
+        }
+
+        .video-loading.hidden {
+            display: none;
+        }
+
+        .loading-dots {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .loading-dots span {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-accent);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 767px) {
+            .search-form {
+                flex-direction: column;
+            }
+            
+            .search-input-group {
+                min-width: 100%;
+            }
+            
+            .video-section {
+                flex-direction: column;
+                margin: 0 10px 30px;
+            }
+            
+            .video-container {
+                min-height: 300px;
+            }
+            
+            .video-controls {
+                flex: 1;
+                padding: 15px;
+            }
+            
+            #main-video {
+                max-height: 40vh;
+            }
+            
+            .anime-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                padding: 0 10px;
+            }
+            
+            .server-buttons {
+                gap: 5px;
+            }
+            
+            .server-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            
+            .control-btn, .add-to-list-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .logo-img {
+                height: 45px;
+            }
+            
+            .header {
+                padding: 15px 0;
+            }
+            
+            body {
+                padding-top: 65px;
+            }
+            
+            .section-title {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+                padding: 0 10px;
+            }
+            
+            .server-type {
+                flex-wrap: wrap;
+                justify-content: flex-start;
+            }
+            
+            .server-type-title {
+                min-width: 40px;
+                text-align: left;
+            }
+            
+            .season-buttons {
+                gap: 5px;
+            }
+            
+            .season-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-img {
+                height: 40px;
+            }
+            
+            .video-container {
+                min-height: 250px;
+            }
+            
+            .anime-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .anime-poster {
+                height: 220px;
+            }
+            
+            .server-type {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .server-type-title {
+                margin-bottom: 5px;
+            }
+            
+            .season-buttons {
+                flex-wrap: wrap;
+            }
+        }
+        
+        /* New Global Search Styles */
+        #searchBox {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            width: 400px;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 20px;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+        }
+
+        .search-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-header h3 {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .search-close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: background 0.2s ease;
+        }
+
+        .search-close-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .search-input-container {
+            position: relative;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-input-field {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-input-field::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-input-field:focus {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+        }
+
+        .filter-button {
+            background: var(--midnight-violet);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .filter-button:hover {
+            background: var(--midnight-violet-light);
+            transform: translateY(-1px);
+        }
+
+        .filter-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-top: 10px;
+            padding: 20px;
+            z-index: 1001;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .filter-section {
+            margin-bottom: 20px;
+        }
+
+        .filter-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-section h4 {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .genre-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .genre-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+            cursor: pointer;
+            padding: 4px 0;
+        }
+
+        .genre-label input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+            accent-color: var(--primary-accent);
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+
+        .filter-option input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+            accent-color: var(--primary-accent);
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .clear-btn, .apply-btn {
+            flex: 1;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .clear-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .clear-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .apply-btn {
+            background: var(--primary-accent);
+            color: #000;
+            border: none;
+        }
+
+        .apply-btn:hover {
+            background: #45b8b0;
+        }
+
+        #suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-top: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1001;
+        }
+
+        #resultsContainer {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            overflow-y: auto;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .results-header h3 {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .view-all-results {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .view-all-btn {
+            background: var(--midnight-violet);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .view-all-btn:hover {
+            background: var(--midnight-violet-light);
+            transform: translateY(-1px);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            #searchBox {
+                width: calc(100% - 40px);
+                right: 20px;
+                left: 20px;
+            }
+
+            #resultsContainer {
+                width: 95%;
+                padding: 20px;
+            }
+
+            .results-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+            }
+
+            .genre-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-container {
+                padding: 0 10px;
+            }
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: #3D4249;
+            color: #ffffff;
+            margin-top: 48px;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 48px 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        .footer-section h3 {
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .footer-links-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .footer-links-grid a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            font-weight: 500;
+        }
+
+        .footer-links-grid a:hover {
+            color: var(--primary-accent, #4ecdc4);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .contact-link:hover {
+            color: var(--primary-accent, #4ecdc4);
+        }
+
+        .contact-link svg {
+            flex-shrink: 0;
+        }
+
+        .footer-brand {
+            text-align: center;
+        }
+
+        .footer-logo {
+            height: 40px;
+            width: auto;
+            margin-bottom: 16px;
+            filter: brightness(1.1);
+        }
+
+        .copyright {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .footer-bottom {
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-bottom-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 24px;
+            text-align: center;
+        }
+
+        .footer-bottom-content p {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .disclaimer {
+            margin-bottom: 8px;
+        }
+
+        .keywords {
+            font-style: italic;
+        }
+
+        /* Responsive Footer Design */
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                padding: 32px 16px;
+            }
+
+            .footer-section {
+                text-align: center;
+            }
+
+            .footer-section h3 {
+                font-size: 1rem;
+                margin-bottom: 16px;
+            }
+
+            .footer-links-grid {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 16px;
+            }
+
+            .footer-links-grid a {
+                font-size: 0.9rem;
+            }
+
+            .contact-info {
+                align-items: center;
+            }
+
+            .footer-brand {
+                order: -1;
+            }
+
+            .footer-logo {
+                height: 35px;
+            }
+
+            .footer-bottom-content {
+                padding: 16px 16px;
+            }
+
+            .footer-bottom-content p {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-content {
+                padding: 24px 16px;
+                gap: 24px;
+            }
+
+            .footer-links-grid {
+                gap: 8px;
+            }
+
+            .footer-links-grid a {
+                font-size: 0.85rem;
+                padding: 8px;
+            }
+        }
+    </style>
+    
+    <!-- Global Search Component -->
+    <script src="scripts/global-search.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="back-link">
+                    <a href="varvoul.github.io/Aniflix-/index.html" style="color: var(--primary-accent); text-decoration: none;">← Back to Home</a>
+                </div>
+            </div>
+            <div class="nav-right">
+                <!-- Search Button -->
+                <button class="search-btn" id="searchIcon">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Search Box Popup -->
+    <div id="searchBox" style="display: none;">
+        <div class="search-header">
+            <h3>Search Movies & Shows</h3>
+            <button id="searchClose" class="search-close-btn">×</button>
+        </div>
+        
+        <div class="search-input-container">
+            <input type="text" id="searchInput" placeholder="Search for movies, shows, anime..." class="search-input-field">
+            <button id="filterBtn" class="filter-button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46"/>
+                </svg>
+                Filters
+            </button>
+        </div>
+        
+        <!-- Filter Dropdown -->
+        <div id="filterDropdown" class="filter-dropdown" style="display: none;">
+            <div class="filter-section">
+                <h4>Genre</h4>
+                <div class="genre-grid">
+                    <!-- Genres will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <h4>Top IMDb</h4>
+                <label class="filter-option">
+                    <input type="checkbox" value="top-imdb"> Top Rated Movies
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" value="top-imdb-shows"> Top Rated TV Shows
+                </label>
+            </div>
+            
+            <div class="filter-section">
+                <h4>Updates</h4>
+                <label class="filter-option">
+                    <input type="checkbox" value="movie"> Movies
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" value="tv-show"> TV Shows
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" value="anime"> Anime
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" value="reality-show"> Reality Shows
+                </label>
+            </div>
+            
+            <div class="filter-actions">
+                <button class="clear-btn">Clear All</button>
+                <button class="apply-btn">Apply Filters</button>
+            </div>
+        </div>
+        
+        <!-- Search Suggestions -->
+        <div id="suggestions" style="display: none;">
+            <!-- Suggestions will be populated by JavaScript -->
+        </div>
+    </div>
+    
+    <!-- Search Results Container -->
+    <div id="resultsContainer" style="display: none;">
+        <div class="results-header">
+            <h3>Search Results (<span id="resultsCount">0</span>)</h3>
+        </div>
+        <div class="results-grid" id="resultsGrid"></div>
+        <div class="view-all-results">
+            <button class="view-all-btn">View All Results</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Video Player Section -->
+
+            <!-- Video Player Section -->
+            <section class="video-section">
+                <div class="video-container">
+                    <div class="video-loading hidden" id="videoLoading">
+                        Loading video...
+                        <div class="loading-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="video-error" id="videoError">
+                        <h3>Video Playback Error</h3>
+                        <p>Unable to load the video. This could be due to:</p>
+                        <ul style="text-align: left; margin: 10px 0;">
+                            <li>Video format not supported by your browser</li>
+                            <li>Network connectivity issues</li>
+                            <li>Server temporarily unavailable</li>
+                        </ul>
+                        <button class="retry-btn" id="retryBtn">Retry</button>
+                    </div>
+                    
+                    <video id="main-video" controls poster="https://cdn.imgchest.com/files/837e9f15d946.jpeg">
+                        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="video-controls">
+                    <div class="video-info">
+                        <h2 class="video-title" id="currentVideoTitle">Select a show to start watching</h2>
+                        <div class="video-meta">
+                            <span id="videoType">Select content</span>
+                            <span id="videoDuration">--</span>
+                            <span id="videoQuality">--</span>
+                            <span id="videoRating">★ --</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Season Selector - Hidden by default, shown only for shows with seasons -->
+                    <div class="season-selector" id="seasonSelector">
+                        <div class="season-selector-title">Seasons:</div>
+                        <div class="season-buttons" id="seasonButtons">
+                            <!-- Season buttons will be generated here -->
+                        </div>
+                    </div>
+                    
+                    <div class="server-selector">
+                        <!-- Raw Server -->
+                        <div class="server-type">
+                            <span class="server-type-title">Raw:</span>
+                            <div class="server-buttons">
+                                <button class="server-btn" data-type="raw" data-server="hd01">
+                                    HD-01
+                                </button>
+                                <button class="server-btn" data-type="raw" data-server="hd02">
+                                    HD-02
+                                </button>
+                                <button class="server-btn" data-type="raw" data-server="hd03">
+                                    HD-03
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Sub Server -->
+                        <div class="server-type">
+                            <span class="server-type-title">Sub:</span>
+                            <div class="server-buttons">
+                                <button class="server-btn active" data-type="sub" data-server="hd01">
+                                    HD-01
+                                </button>
+                                <button class="server-btn" data-type="sub" data-server="hd02">
+                                    HD-02
+                                </button>
+                                <button class="server-btn" data-type="sub" data-server="hd03">
+                                    HD-03
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Dub Server -->
+                        <div class="server-type">
+                            <span class="server-type-title">Dub:</span>
+                            <div class="server-buttons">
+                                <button class="server-btn" data-type="dub" data-server="hd01">
+                                    HD-01
+                                </button>
+                                <button class="server-btn" data-type="dub" data-server="hd02">
+                                    HD-02
+                                </button>
+                                <button class="server-btn" data-type="dub" data-server="hd03">
+                                    HD-03
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="control-buttons">
+                        <button class="control-btn secondary" id="prevBtn" disabled>Previous Episode</button>
+                        <button class="control-btn" id="nextBtn" disabled>Next Episode</button>
+                        <div class="add-to-list-container">
+                            <button class="add-to-list-btn" id="addToListBtn" disabled>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                <span id="listButtonText">Select Content</span>
+                            </button>
+                            <div class="dropdown-content" id="listDropdown">
+                                <div class="dropdown-item" data-status="planning">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="9" y1="9" x2="15" y2="9"></line>
+                                        <line x1="9" y1="15" x2="15" y2="15"></line>
+                                    </svg>
+                                    Planning to watch
+                                </div>
+                                <div class="dropdown-item" data-status="watching">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    Watching
+                                </div>
+                                <div class="dropdown-item" data-status="completed">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                    </svg>
+                                    Completed
+                                </div>
+                                <div class="dropdown-item" data-status="rewatching">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="23 4 23 10 17 10"></polyline>
+                                        <polyline points="1 20 1 14 7 14"></polyline>
+                                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                                    </svg>
+                                    Re-watching
+                                </div>
+                                <div class="dropdown-item" data-status="dropped">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                                    </svg>
+                                    Dropped
+                                </div>
+                                <div class="dropdown-item remove" data-status="remove">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    </svg>
+                                    Remove from list
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="episode-selector">
+                        <div class="episode-selector-title">Episodes:</div>
+                        <div class="episode-list" id="episodeList">
+                            <div class="episode-item active">
+                                <span>Select content to view episodes</span>
+                                <span>--</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="current-episode-message" id="currentEpisodeMessage">
+                        Please select a show from the search results or browse categories below
+                    </div>
+                </div>
+            </section>
+
+            <!-- You May Like This -->
+            <section class="section">
+                <h2 class="section-title">
+                    You May Like This
+                    <a href="#" class="view-all">View All</a>
+                </h2>
+                <div class="anime-grid" id="popularAnime">
+                    <!-- Popular anime will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Recommended -->
+            <section class="section">
+                <h2 class="section-title">
+                    Recommended
+                    <a href="#" class="view-all">View All</a>
+                </h2>
+                <div class="anime-grid" id="newReleases">
+                    <!-- New releases will be loaded here -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script src="scripts/streaming-page.js"></script>
+    
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section footer-links">
+                <h3>Quick Links</h3>
+                <div class="footer-links-grid">
+                    <a href="varvoul.github.io/Aniflix-/index.html">Home</a>
+                    <a href="varvoul.github.io/Aniflix-/top-imdb.html">Top IMDB</a>
+                    <a href="varvoul.github.io/Aniflix-/top-rated.html">Top Rated</a>
+                    <a href="varvoul.github.io/Aniflix-/top-anime.html">Top Anime</a>
+                    <a href="varvoul.github.io/Aniflix-/admin.html">Admin Panel</a>
+                </div>
+            </div>
+            
+            <div class="footer-section footer-contact">
+                <h3>Contact</h3>
+                <div class="contact-info">
+                    <a href="mailto:foogyfogg@proton.me" class="contact-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        Contact Us
+                    </a>
+                    <a href="https://quravel.blogspot.com/p/sent-your-movie-request.html" class="contact-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        Send Request
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-section footer-brand">
+                <div class="brand-logo">
+                    <img src="images/logo.png" alt="Quravel Logo" class="footer-logo">
+                </div>
+                <p class="copyright">© 2025 Quravel - Enhanced Streaming Platform</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p class="disclaimer">
+                    This site does not store any files on our server, we only link to the media which is hosted on 3rd party services.
+                </p>
+                <p class="keywords">Watch free movies, watch free TV shows, free movies online</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
